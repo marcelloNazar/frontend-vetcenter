@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+}
+
+@layer components {
+  .data-container {
+    @apply text-gray-700 flex justify-between items-end border-l-2 border-gray-900  px-4 w-full;
+  }
+  .vet-container {
+    @apply flex flex-col justify-center items-center h-full w-full overflow-auto dark:bg-gray-800 bg-gray-100 rounded hover:shadow-md;
+  }
+  .vet-botao {
+    @apply bg-black text-white rounded px-3 py-1  text-base transform transition duration-200 hover:opacity-90 hover:shadow-lg;
+  }
+  .hist-botao {
+    @apply bg-gray-100 border-l-8 w-full h-full my-1 hover:shadow-md text-xl  transform transition hover:scale-105 duration-200;
+  }
+  .vet-input {
+    @apply m-2 px-4 py-2 border rounded-lg;
+  }
+  .item-list {
+    @apply flex justify-between bg-white border shadow cursor-pointer p-2 mb-2 w-full rounded hover:shadow-md;
+  }
+  .modal-container {
+    @apply flex flex-col justify-start items-center h-full w-full overflow-auto;
+  }
+  .header-container {
+    @apply flex justify-between items-center w-full mb-2;
+  }
+  .body-container {
+    @apply w-full h-full p-2 pl-6;
+  }
+  .body-modal {
+    @apply w-full grid grid-cols-2 gap-1;
+  }
+}
