@@ -4,6 +4,7 @@ interface EsteticaFormProps {
   onClose: () => void;
 }
 
+//Formulario para cadastro de estetica
 const EsteticaForm: React.FC<EsteticaFormProps> = ({ onClose }) => {
   const [form, setForm] = useState({
     veterinarioId: 0,
@@ -32,7 +33,6 @@ const EsteticaForm: React.FC<EsteticaFormProps> = ({ onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implementar a requisição POST
     onClose();
   };
 
@@ -47,7 +47,6 @@ const EsteticaForm: React.FC<EsteticaFormProps> = ({ onClose }) => {
           onChange={handleChange}
         />
       </label>
-      {/* Adicione os outros campos aqui */}
       <button className="vet-botao" type="submit">
         Submit
       </button>

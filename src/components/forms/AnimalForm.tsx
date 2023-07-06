@@ -1,5 +1,5 @@
 import React from "react";
-import { Animal as AnimalType } from "@/types";
+import { Animal as AnimalType } from "@/types/types";
 
 type FormularioAnimalProps = {
   newAnimal: Partial<AnimalType>;
@@ -7,6 +7,7 @@ type FormularioAnimalProps = {
   handleSubmit: (event: React.FormEvent) => void;
 };
 
+//Formulario para cadastro de animais
 const FormularioAnimal: React.FC<FormularioAnimalProps> = ({
   newAnimal,
   setNewAnimal,

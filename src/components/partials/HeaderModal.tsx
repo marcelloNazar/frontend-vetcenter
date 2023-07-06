@@ -10,7 +10,7 @@ const HeaderModal: React.FC<HeaderContainerProps> = ({
   closeModal,
 }) => {
   return (
-    <div className="header-container">
+    <div className="header-container text-black">
       <h1 className="text-xl">{selected}</h1>
       <button onClick={closeModal} className="vet-botao">
         Fechar

@@ -1,6 +1,6 @@
 // AnimalContext.tsx
 import { createContext, ReactNode, useState } from "react";
-import { Animal } from "@/types";
+import { Animal } from "@/types/types";
 
 interface AnimalContextType {
   animal: Animal | null;

@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import { Veterinario, Animal } from "@/types";
-
+import { Atendimento } from "@/types/types";
+import http from "@/utils/http";
 interface AnamneseFormProps {
-  selectedVeterinario: Veterinario;
-  animal: Animal;
+  selectedAtendimento: Atendimento;
   onClose: () => void;
 }
 
+//Formulario para cadastro de anamnese
 const AnamneseForm: React.FC<AnamneseFormProps> = ({
-  selectedVeterinario,
-  animal,
+  selectedAtendimento,
   onClose,
 }) => {
   const [formValues, setFormValues] = useState({
@@ -52,63 +51,144 @@ const AnamneseForm: React.FC<AnamneseFormProps> = ({
     retorno: "",
     data: "",
   });
-
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     let inputValue: string | boolean;
 
-    if ((e.target as HTMLInputElement).type === "checkbox") {
-      inputValue = (e.target as HTMLInputElement).checked;
+    const target = e.target as
+      | HTMLInputElement
+      | HTMLSelectElement
+      | HTMLTextAreaElement;
+
+    if (target.type === "checkbox") {
+      inputValue = (target as HTMLInputElement).checked;
     } else {
-      inputValue = e.target.value;
+      inputValue = target.value;
     }
 
     setFormValues((prevValues) => ({
       ...prevValues,
-      [e.target.name]: inputValue,
+      [target.name]: inputValue,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const anamneseRecord = {
-      veterinarioId: selectedVeterinario.id,
-      animalId: animal.id,
-      ...formValues,
-    };
-
-    const response = await fetch("http://localhost:8080/anamnese", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(anamneseRecord),
-    });
-
-    if (response.ok) {
-      onClose();
-    } else {
-      console.error("Erro ao enviar o formulário de anamnese");
+    if (selectedAtendimento) {
+      const anamneseRecord = {
+        atendimentoId: selectedAtendimento.id,
+        ...formValues,
+      };
+      http
+        .post("anamnese", anamneseRecord)
+        .then((r) => {
+          if (r.status === 201) {
+            onClose();
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   };
 
   return (
-    <div className="modal-container">
-      <form className="body-modal" onSubmit={handleSubmit}>
-        <input
-          className="vet-input"
-          type="text"
+    <div className="modal-container overflow-hidden">
+      <div className="w-full flex flex-col pr-4">
+        <textarea
+          className="vet-input h-32 w-full"
           name="anamnese"
           placeholder="Anamnese"
           value={formValues.anamnese}
           onChange={handleChange}
         />
+        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <input
+            className="vet-input w-full"
+            type="text"
+            name="estado"
+            placeholder="Estado Geral"
+            value={formValues.estado}
+            onChange={handleChange}
+          />
+          <div className="flex p-1 justify-between">
+            <label className="flex items-center ml-1">
+              Ectoparasitas
+              <input
+                className="ml-1"
+                type="checkbox"
+                name="ectoparasitas"
+                checked={formValues.ectoparasitas}
+                onChange={handleChange}
+              />
+            </label>
+            <label className="flex items-center ml-1">
+              Mioclonias
+              <input
+                className="ml-1"
+                type="checkbox"
+                name="mioclonias"
+                checked={formValues.mioclonias}
+                onChange={handleChange}
+              />
+            </label>
+            <label className="flex items-center ml-1">
+              Vômito
+              <input
+                className="ml-1"
+                type="checkbox"
+                name="vomito"
+                checked={formValues.vomito}
+                onChange={handleChange}
+              />
+            </label>
+            <label className="flex items-center ml-1">
+              Diarreia
+              <input
+                className="ml-1"
+                type="checkbox"
+                name="diarreia"
+                checked={formValues.diarreia}
+                onChange={handleChange}
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+      <form className="body-modal" onSubmit={handleSubmit}>
         <input
           className="vet-input"
           type="text"
-          name="estado"
-          placeholder="Estado Geral"
-          value={formValues.estado}
+          name="linfonodos"
+          placeholder="Linfonodos? Qual(is)"
+          value={formValues.linfonodos}
+          onChange={handleChange}
+        />
+        <input
+          className="vet-input"
+          type="text"
+          name="inapatencia"
+          placeholder="Inapatencia? Tempo?"
+          value={formValues.inapatencia}
+          onChange={handleChange}
+        />
+        <input
+          className="vet-input"
+          type="text"
+          name="secrecoesPatologicas"
+          placeholder="Secreções Patológicas? Local?"
+          value={formValues.secrecoesPatologicas}
+          onChange={handleChange}
+        />
+        <input
+          className="vet-input"
+          type="text"
+          name="alteracaoComportamental"
+          placeholder="Alteração Corpontamental? Qual?"
+          value={formValues.alteracaoComportamental}
           onChange={handleChange}
         />
         <select
@@ -123,14 +203,6 @@ const AnamneseForm: React.FC<AnamneseFormProps> = ({
           <option value="Hiperemicas">Hiperemicas</option>
           <option value="Ictéric">Ictérica</option>
         </select>
-        <input
-          className="vet-input"
-          type="text"
-          name="linfonodos"
-          placeholder="Linfonodos"
-          value={formValues.linfonodos}
-          onChange={handleChange}
-        />
         <select
           className="vet-input "
           name="tpc"
@@ -177,49 +249,112 @@ const AnamneseForm: React.FC<AnamneseFormProps> = ({
           <option value="Leve">Leve</option>
           <option value="Ausente">Ausente</option>
         </select>
-        <div className="flex p-2 justify-between">
-          <label className="flex items-center ml-2">
-            Ectoparasitas
-            <input
-              className="ml-2"
-              type="checkbox"
-              name="ectoparasitas"
-              checked={formValues.ectoparasitas}
-              onChange={handleChange}
-            />
-          </label>
-          <label className="flex items-center ml-2">
-            Mioclonias
-            <input
-              className="ml-2"
-              type="checkbox"
-              name="mioclonias"
-              checked={formValues.mioclonias}
-              onChange={handleChange}
-            />
-          </label>
-          <label className="flex items-center ml-2">
-            Vômito
-            <input
-              className="ml-2"
-              type="checkbox"
-              name="vomito"
-              checked={formValues.vomito}
-              onChange={handleChange}
-            />
-          </label>
-          <label className="flex items-center ml-2">
-            Diarreia
-            <input
-              className="ml-2"
-              type="checkbox"
-              name="diarreia"
-              checked={formValues.diarreia}
-              onChange={handleChange}
-            />
-          </label>
-        </div>
+        <select
+          className="vet-input "
+          name="calculoDentario"
+          value={formValues.calculoDentario}
+          onChange={handleChange}
+        >
+          <option value="">Calculo Dentario</option>
+          <option value="Grave">Grave</option>
+          <option value="Moderado">Moderado</option>
+          <option value="Leve">Leve</option>
+          <option value="Ausente">Ausente</option>
+        </select>
+        <select
+          className="vet-input "
+          name="auscultacaoPulmonar"
+          value={formValues.auscultacaoPulmonar}
+          onChange={handleChange}
+        >
+          <option value="">Auscultação Pulmonar</option>
+          <option value="Limpa">Limpa</option>
+          <option value="Ruidosa">Ruidosa</option>
+          <option value="Creptação">Creptação</option>
+        </select>
+        <select
+          className="vet-input "
+          name="auscultacaoCardiaca"
+          value={formValues.auscultacaoCardiaca}
+          onChange={handleChange}
+        >
+          <option value="">Auscultação Cardiaca</option>
+          <option value="Normal">Normal</option>
+          <option value="Sopro Leve">Sopro Leve</option>
+          <option value="Sopro Moderado">Sopro Moderado</option>
+        </select>
+        <select
+          className="vet-input "
+          name="reflexoToce"
+          value={formValues.reflexoToce}
+          onChange={handleChange}
+        >
+          <option value="">Reflexo Tosse</option>
+          <option value="Positivo">Positivo</option>
+          <option value="Negativo">Negativo</option>
+        </select>
+        <select
+          className="vet-input "
+          name="emagrecimento"
+          value={formValues.emagrecimento}
+          onChange={handleChange}
+        >
+          <option value="">Emagrecimento</option>
+          <option value="Acentuado">Acentuado</option>
+          <option value="Progressivo">Progressivo</option>
+          <option value="Leve">Leve</option>
+          <option value="Ausente">Ausente</option>
+        </select>
       </form>
+      <div className="flex flex-col w-full items-center justify-center">
+        <h2>Sistema Cardio Respiratorio</h2>
+        <div className="flex w-full p-2 justify-between">
+          <label className="flex items-center ml-2">
+            Cansaço
+            <input
+              className="ml-2"
+              type="checkbox"
+              name="cansaco"
+              checked={formValues.cansaco}
+              onChange={handleChange}
+            />
+          </label>
+          <label className="flex items-center ml-2">
+            Tosse
+            <input
+              className="ml-2"
+              type="checkbox"
+              name="tosse"
+              checked={formValues.tosse}
+              onChange={handleChange}
+            />
+          </label>
+          <input
+            className="vet-input"
+            type="text"
+            name="pulso"
+            placeholder="Pulso"
+            value={formValues.pulso}
+            onChange={handleChange}
+          />
+          <input
+            className="vet-input"
+            type="text"
+            name="fc"
+            placeholder="FC"
+            value={formValues.fc}
+            onChange={handleChange}
+          />
+          <input
+            className="vet-input"
+            type="text"
+            name="fr"
+            placeholder="FR"
+            value={formValues.fr}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
       <button onClick={handleSubmit} className="vet-botao mt-8" type="submit">
         Adicionar
       </button>

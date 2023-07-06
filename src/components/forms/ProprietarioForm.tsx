@@ -1,5 +1,5 @@
 import React from "react";
-import { Owner } from "@/types";
+import { Owner } from "@/types/types";
 
 interface FormularioProprietarioProps {
   newOwner: Partial<Owner>;
@@ -7,6 +7,7 @@ interface FormularioProprietarioProps {
   handleSubmit: (e: React.FormEvent) => void;
 }
 
+//Formulario para cadastro de proprietario
 const FormularioProprietario: React.FC<FormularioProprietarioProps> = ({
   newOwner,
   handleChange,

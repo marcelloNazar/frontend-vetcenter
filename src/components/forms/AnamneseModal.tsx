@@ -1,5 +1,5 @@
 import React from "react";
-import { AnamneseRecord } from "@/types";
+import { AnamneseRecord } from "@/types/types";
 import HeaderModal from "../partials/HeaderModal";
 
 interface AnamneseModalProps {
@@ -76,7 +76,6 @@ const AnamneseModal: React.FC<AnamneseModalProps> = ({
           <div className="p-1 pl-0 w-36 ">Inapatência: </div>
           <p>{record.inapatencia}</p>
         </div>
-        {/* Adicione aqui outras informações que deseja exibir */}
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
-import { useSelectedOwner } from "../contexts/SelectedOwnerContext"; // Ajuste o caminho de acordo com a localização do seu arquivo
-import FormularioProprietario from "./forms/ProprietarioForm";
-import { Owner } from "@/types";
+import { useSelectedOwner } from "../../contexts/SelectedOwnerContext"; // Ajuste o caminho de acordo com a localização do seu arquivo
+import FormularioProprietario from "../forms/ProprietarioForm";
+import { Owner } from "@/types/types";
 import { customStyles } from "@/styles/styles";
-import HeaderModal from "./partials/HeaderModal";
+import HeaderModal from "../partials/HeaderModal";
+import http from "@/utils/http";
 
 const Proprietario: React.FC = () => {
   const [owners, setOwners] = useState<Owner[]>([]);
@@ -16,10 +17,15 @@ const Proprietario: React.FC = () => {
   const { selectedOwner, setSelectedOwner } = useSelectedOwner();
 
   useEffect(() => {
-    fetch("http://localhost:8080/proprietario")
-      .then((response) => response.json())
-      .then((data) => setOwners(data.content));
+    fetchProprietario();
   }, []);
+
+  const fetchProprietario = () => {
+    http
+      .get("proprietario")
+      .then((r) => setOwners(r.data.content))
+      .catch((e) => console.error("Error:", e));
+  };
 
   const handleOwnerClick = (owner: Owner) => {
     setSelectedOwner(owner);
@@ -33,17 +39,18 @@ const Proprietario: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    fetch("http://localhost:8080/proprietario", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newOwner),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setSelectedOwner(data);
-        setNewOwner({});
-        setAddModalIsOpen(false);
-      });
+    http
+      .post("proprietario", newOwner)
+      .then((r) => {
+        if (r.status === 201) {
+          setSelectedOwner(r.data);
+          setNewOwner({});
+          setAddModalIsOpen(false);
+        } else {
+          alert("Erro ao adicionar o proprietario");
+        }
+      })
+      .catch((error) => console.error("Error:", error));
   };
 
   const closeModal = () => {
@@ -75,24 +82,24 @@ const Proprietario: React.FC = () => {
               <div className="">{selectedOwner.telefone}</div>
             </div>
 
-            <div className="data-container">
+            <div className="data-container ">
               <div>CPF:</div>
               <div>{selectedOwner.cpf}</div>
             </div>
             <div className="data-container ">
-              <div className="text-gray-700">Nascimento:</div>
+              <div>Nascimento:</div>
               <div>{selectedOwner.nascimento}</div>
             </div>
             <div className="data-container ">
-              <div className="text-gray-700">Nascimento:</div>
+              <div>Nascimento:</div>
               <div>{selectedOwner.nomeMae}</div>
             </div>
             <div className="data-container ">
-              <div className="text-gray-700">Nascimento:</div>
+              <div>Nascimento:</div>
               <div>{selectedOwner.sexo}</div>
             </div>
             <div className="data-container ">
-              <div className="text-gray-700">Status:</div>
+              <div>Status:</div>
               <div>Cliente Bom</div>
             </div>
           </div>

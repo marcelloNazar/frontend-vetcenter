@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import ReactModal from "react-modal";
-import { useSelectedOwner } from "../contexts/SelectedOwnerContext";
-import { Animal as AnimalType } from "@/types";
+import { useSelectedOwner } from "../../contexts/SelectedOwnerContext";
+import { Animal as AnimalType } from "@/types/types";
 import { customStyles } from "@/styles/styles";
-import FormularioAnimal from "./forms/AnimalForm";
-import { AnimalContext } from "../contexts/AnimalContext";
-import HeaderModal from "./partials/HeaderModal";
+import FormularioAnimal from "../forms/AnimalForm";
+import { AnimalContext } from "../../contexts/AnimalContext";
+import HeaderModal from "../partials/HeaderModal";
+import http from "@/utils/http";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 const Animal: React.FC = () => {
   const [animals, setAnimals] = useState<AnimalType[]>([]);
@@ -17,11 +19,39 @@ const Animal: React.FC = () => {
 
   useEffect(() => {
     if (selectedOwner) {
-      fetch(`http://localhost:8080/animal/proprietario/${selectedOwner.id}`)
-        .then((response) => response.json())
-        .then((data) => setAnimals(data));
+      fetchAnimais();
     }
   }, [selectedOwner]);
+
+  const fetchAnimais = () => {
+    http
+      .get(`animal/proprietario/${selectedOwner?.id}`)
+      .then((r) => setAnimals(r.data))
+      .catch((e) => console.error("Error:", e));
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (selectedOwner) {
+      const animalData = {
+        ...newAnimal,
+        proprietarioId: selectedOwner.id,
+      };
+      http
+        .post("animal", animalData)
+        .then((response) => {
+          if (response.status === 201) {
+            fetchAnimais();
+            closeModal();
+          } else {
+            alert("Erro ao adicionar o animal");
+          }
+        })
+        .catch((error) => {
+          console.error("Erro:", error);
+        });
+    }
+  };
 
   const openModal = () => {
     setIsOpen(true);
@@ -29,37 +59,6 @@ const Animal: React.FC = () => {
 
   const closeModal = () => {
     setIsOpen(false);
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (selectedOwner) {
-      fetch("http://localhost:8080/animal", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...newAnimal,
-          proprietarioId: selectedOwner.id,
-        }),
-      })
-        .then((response) => {
-          if (response.ok) {
-            fetch(
-              `http://localhost:8080/animal/proprietario/${selectedOwner.id}`
-            )
-              .then((response) => response.json())
-              .then((data) => setAnimals(data));
-
-            closeModal();
-          } else {
-            console.error("Erro ao adicionar o animal");
-          }
-        })
-        .catch((error) => {
-          console.error("Erro:", error);
-        });
-    }
   };
 
   return (
@@ -102,11 +101,21 @@ const Animal: React.FC = () => {
                   animals.map((animal, index) => (
                     <div
                       key={index}
-                      className="item-list"
+                      className="item-list dark:bg-gray-950"
                       onClick={() => setAnimal(animal)}
                     >
-                      <h2 className="">{animal.nome}</h2>
-                      <p className="">{animal.especie}</p>
+                      <div className="flex justify-between w-full mr-8">
+                        <h2 className="">{animal.nome}</h2>
+                        <p className="">{animal.especie}</p>
+                      </div>
+                      <div className="flex justify-between w-16 ">
+                        <button>
+                          <PencilSquareIcon className="h-5 " />
+                        </button>
+                        <button>
+                          <TrashIcon className="h-5 " />
+                        </button>
+                      </div>
                     </div>
                   ))
                 )}

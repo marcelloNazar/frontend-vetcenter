@@ -2,6 +2,8 @@ export interface Owner {
   id: number;
   nome: string;
   telefone: string;
+  telefone1: string;
+  telefone2: string;
   cpf: string;
   nascimento: string;
   sexo: string;
@@ -47,6 +49,31 @@ export interface Veterinario {
     numero: string;
     complemento: string;
   };
+}
+
+export interface Atendimento {
+  id: number;
+  veterinario: Veterinario;
+  animal: Animal;
+  proprietario: Owner;
+  pago: boolean;
+  total: number;
+  produtos: Produto[];
+  servicos: Servico[];
+}
+
+export interface Produto {
+  id: number;
+  nome: string;
+  valor: number;
+  quantidade: number;
+}
+
+export interface Servico {
+  id: number;
+  nome: string;
+  valor: number;
+  quantidade: number;
 }
 
 export interface Anamnese {

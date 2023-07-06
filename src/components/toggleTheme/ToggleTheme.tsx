@@ -1,18 +1,23 @@
 import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
-import { useTheme } from "next-themes";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const ToggleTheme = () => {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  React.useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
+
   return (
-    <button onClick={() => setTheme(theme === "light" ? "dark" : "ligth")}>
-      {theme === "ligth" ? (
-        <MoonIcon className="h-8 text-gray-100" />
+    <button onClick={() => setDarkMode((p) => !p)}>
+      {darkMode ? (
+        <SunIcon className="h-8 transition duration-200 " />
       ) : (
-        <SunIcon className="h-8 text-gray-100" />
+        <MoonIcon className="h-8 transition duration-200" />
       )}
     </button>
   );
