@@ -4,7 +4,6 @@ import VeterinarioComponent from "@/components/admin/partials/Veterinario";
 import ProdutoComponent from "@/components/admin/partials/Produto";
 import ServicoComponent from "@/components/admin/partials/Servico";
 import { useRouter } from "next/router";
-import ProprietarioComponent from "@/components/admin/partials/ProprietarioAdmin";
 
 const Gerenciamento: React.FC = () => {
   const router = useRouter();
