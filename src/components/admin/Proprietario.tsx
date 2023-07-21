@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
-import { useSelectedOwner } from "../../contexts/SelectedOwnerContext"; // Ajuste o caminho de acordo com a localização do seu arquivo
+import { useSelectedOwner } from "../../contexts/SelectedOwnerContext";
 import FormularioProprietario from "../forms/ProprietarioForm";
 import { Owner } from "@/types/types";
 import { customStyles } from "@/styles/styles";
 import HeaderModal from "../partials/HeaderModal";
 import http from "@/utils/http";
+import { useAtendimento } from "@/contexts/AtendimentoContext";
 
 const Proprietario: React.FC = () => {
   const [owners, setOwners] = useState<Owner[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [addModalIsOpen, setAddModalIsOpen] = useState(false);
+  const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false);
   const [newOwner, setNewOwner] = useState<Partial<Owner>>({});
   const [pesquisa, setPesquisa] = useState("");
 
   const { selectedOwner, setSelectedOwner } = useSelectedOwner();
+
+  const [updateOwner, setUpdateOwner] = useState<Partial<Owner>>();
 
   useEffect(() => {
     fetchProprietario();
@@ -30,25 +34,49 @@ const Proprietario: React.FC = () => {
   const handleOwnerClick = (owner: Owner) => {
     setSelectedOwner(owner);
     setModalIsOpen(false);
+    setUpdateOwner(owner);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setNewOwner((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleAddSubmit = (data: Partial<Owner>) => {
     http
-      .post("proprietario", newOwner)
+      .post("proprietario", data)
       .then((r) => {
         if (r.status === 201) {
-          setSelectedOwner(r.data);
-          setNewOwner({});
           setAddModalIsOpen(false);
+          fetchProprietario();
+          setSelectedOwner(null);
+          setSelectedOwner(r.data);
+          setUpdateOwner(r.data);
         } else {
-          alert("Erro ao adicionar o proprietario");
+          alert("Erro ao adicionar o produto");
         }
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  const handleUpdateSubmit = (data: Partial<Owner>) => {
+    console.log(data);
+    http
+      .put(`proprietario/${updateOwner?.id}`, data)
+      .then((r) => {
+        if (r.status === 200) {
+          setUpdateModalIsOpen(false);
+          fetchProprietario();
+          setSelectedOwner(null);
+          setSelectedOwner(r.data);
+          setUpdateOwner(r.data);
+        } else {
+          alert("Erro ao atualizar o produto");
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  const handleDelete = (id: number) => {
+    http
+      .delete(`proprietario/${id}`)
+      .then((response) => {
+        fetchProprietario();
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -56,9 +84,14 @@ const Proprietario: React.FC = () => {
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
   const closeAddModal = () => {
     setAddModalIsOpen(false);
   };
+  const closeUpdateModal = () => {
+    setUpdateModalIsOpen(false);
+  };
+
   const HandleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPesquisa(e.target.value);
   };
@@ -69,12 +102,20 @@ const Proprietario: React.FC = () => {
         <div className="body-container">
           <div className="header-container">
             <h2 className="text-xl uppercase">{selectedOwner.nome}</h2>
-            <button
-              className="vet-botao"
-              onClick={() => setSelectedOwner(null)}
-            >
-              Voltar
-            </button>
+            <div>
+              <button
+                className="vet-botao"
+                onClick={() => setUpdateModalIsOpen(true)}
+              >
+                Editar
+              </button>
+              <button
+                className="vet-botao"
+                onClick={() => setSelectedOwner(null)}
+              >
+                Voltar
+              </button>
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-1 mr-12">
             <div className="data-container">
@@ -141,7 +182,7 @@ const Proprietario: React.FC = () => {
           <div className="overflow-y-auto h-full w-full mt-4 space-y-2">
             {owners
               .filter((owner) =>
-                owner.nome.toLowerCase().includes(pesquisa.toLowerCase())
+                owner.nome?.toLowerCase().includes(pesquisa.toLowerCase())
               )
               .map((owner) => (
                 <div
@@ -167,10 +208,22 @@ const Proprietario: React.FC = () => {
             selected="Adicione os dados do proprietario"
             closeModal={closeAddModal}
           />
+          <FormularioProprietario handleSubmit={handleAddSubmit} />
+        </div>
+      </ReactModal>
+      <ReactModal
+        isOpen={updateModalIsOpen}
+        onRequestClose={() => setUpdateModalIsOpen(false)}
+        style={customStyles}
+      >
+        <div className="modal-container">
+          <HeaderModal
+            selected="Adicione os dados do proprietario"
+            closeModal={closeUpdateModal}
+          />
           <FormularioProprietario
-            newOwner={newOwner}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
+            data={updateOwner}
+            handleSubmit={handleUpdateSubmit}
           />
         </div>
       </ReactModal>

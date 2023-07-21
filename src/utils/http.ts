@@ -1,9 +1,8 @@
 import axios from "axios";
-import { getToken, logout } from "./auth";
 import Cookies from "js-cookie";
 
 const http = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: "https://apiandrevetcenter-production.up.railway.app/",
   headers: {
     "Content-Type": "application/json",
   },

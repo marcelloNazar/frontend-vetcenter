@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Atendimento } from "@/types/types";
 import http from "@/utils/http";
+import { useAtendimento } from "@/contexts/AtendimentoContext";
 interface AnamneseFormProps {
   selectedAtendimento: Atendimento;
   onClose: () => void;
@@ -51,6 +52,9 @@ const AnamneseForm: React.FC<AnamneseFormProps> = ({
     retorno: "",
     data: "",
   });
+
+  const { setAnamnese } = useAtendimento();
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -86,6 +90,7 @@ const AnamneseForm: React.FC<AnamneseFormProps> = ({
         .post("anamnese", anamneseRecord)
         .then((r) => {
           if (r.status === 201) {
+            setAnamnese(r.data);
             onClose();
           }
         })
@@ -96,25 +101,27 @@ const AnamneseForm: React.FC<AnamneseFormProps> = ({
   };
 
   return (
-    <div className="modal-container overflow-hidden">
-      <div className="w-full flex flex-col pr-4">
-        <textarea
-          className="vet-input h-32 w-full"
-          name="anamnese"
-          placeholder="Anamnese"
-          value={formValues.anamnese}
-          onChange={handleChange}
-        />
-        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className="modal-container">
+      <div className="w-full flex flex-col pr-2">
+        <div className="w-full mb-2">
+          <textarea
+            className="vet-input h-full w-full"
+            name="anamnese"
+            placeholder="Anamnese"
+            value={formValues.anamnese}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="w-full flex gap-4">
           <input
-            className="vet-input w-full"
+            className="vet-input w-1/3 -mr-1"
             type="text"
             name="estado"
             placeholder="Estado Geral"
             value={formValues.estado}
             onChange={handleChange}
           />
-          <div className="flex p-1 justify-between">
+          <div className="flex w-2/3 p-1 justify-between">
             <label className="flex items-center ml-1">
               Ectoparasitas
               <input
@@ -308,8 +315,8 @@ const AnamneseForm: React.FC<AnamneseFormProps> = ({
       </form>
       <div className="flex flex-col w-full items-center justify-center">
         <h2>Sistema Cardio Respiratorio</h2>
-        <div className="flex w-full p-2 justify-between">
-          <label className="flex items-center ml-2">
+        <div className="flex w-full justify-between">
+          <label className="flex items-center ml-2 w-1/8">
             Cansaço
             <input
               className="ml-2"
@@ -319,7 +326,7 @@ const AnamneseForm: React.FC<AnamneseFormProps> = ({
               onChange={handleChange}
             />
           </label>
-          <label className="flex items-center ml-2">
+          <label className="flex items-center ml-2  w-1/8">
             Tosse
             <input
               className="ml-2"
@@ -330,7 +337,7 @@ const AnamneseForm: React.FC<AnamneseFormProps> = ({
             />
           </label>
           <input
-            className="vet-input"
+            className="vet-input w-1/4"
             type="text"
             name="pulso"
             placeholder="Pulso"
@@ -338,7 +345,7 @@ const AnamneseForm: React.FC<AnamneseFormProps> = ({
             onChange={handleChange}
           />
           <input
-            className="vet-input"
+            className="vet-input w-1/4"
             type="text"
             name="fc"
             placeholder="FC"
@@ -346,7 +353,7 @@ const AnamneseForm: React.FC<AnamneseFormProps> = ({
             onChange={handleChange}
           />
           <input
-            className="vet-input"
+            className="vet-input w-1/4"
             type="text"
             name="fr"
             placeholder="FR"

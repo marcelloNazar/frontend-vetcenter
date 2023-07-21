@@ -15,9 +15,9 @@ const ToggleTheme = () => {
   return (
     <button onClick={() => setDarkMode((p) => !p)}>
       {darkMode ? (
-        <SunIcon className="h-8 transition duration-200 " />
+        <SunIcon className="h-8 vet-botao transform transition duration-200 hover:scale-110" />
       ) : (
-        <MoonIcon className="h-8 transition duration-200" />
+        <MoonIcon className="h-8 vet-botao transform transition duration-200 hover:scale-110" />
       )}
     </button>
   );

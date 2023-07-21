@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import ReactModal from "react-modal";
+import Modal from "react-modal";
 import { useSelectedOwner } from "../../contexts/SelectedOwnerContext";
 import { Animal as AnimalType } from "@/types/types";
 import { customStyles } from "@/styles/styles";
@@ -12,7 +12,10 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 const Animal: React.FC = () => {
   const [animals, setAnimals] = useState<AnimalType[]>([]);
   const [newAnimal, setNewAnimal] = useState<Partial<AnimalType>>({});
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [addModalIsOpen, setAddModalIsOpen] = useState(false);
+  const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false);
+  const [editingAnimal, setEditingAnimal] = useState(false);
+
   const { animal, setAnimal } = useContext(AnimalContext);
 
   const { selectedOwner } = useSelectedOwner();
@@ -30,19 +33,28 @@ const Animal: React.FC = () => {
       .catch((e) => console.error("Error:", e));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleAnimalClick = (animal: AnimalType) => {
+    setAnimal(animal);
+    setNewAnimal(animal);
+    setEditingAnimal(true);
+  };
+
+  const handleSubmit = (data: Partial<AnimalType>) => {
     if (selectedOwner) {
       const animalData = {
-        ...newAnimal,
+        ...data,
         proprietarioId: selectedOwner.id,
       };
+      console.log(animalData);
       http
         .post("animal", animalData)
         .then((response) => {
           if (response.status === 201) {
             fetchAnimais();
-            closeModal();
+            closeAddModal();
+            setAnimal(null);
+            setAnimal(response.data);
+            setNewAnimal(response.data);
           } else {
             alert("Erro ao adicionar o animal");
           }
@@ -53,13 +65,61 @@ const Animal: React.FC = () => {
     }
   };
 
-  const openModal = () => {
-    setIsOpen(true);
+  const handleUpdate = (data: Partial<AnimalType>) => {
+    const animalData = {
+      ...data,
+    };
+    http
+      .put(`animal/${animal?.id}`, animalData)
+      .then((response) => {
+        if (response.status === 200) {
+          fetchAnimais();
+          setAnimal(null);
+          setAnimal(response.data);
+          setNewAnimal(response.data);
+          closeUpdateModal();
+        } else {
+          alert("Erro ao adicionar o animal");
+        }
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+      });
   };
 
-  const closeModal = () => {
-    setIsOpen(false);
+  const openAddModal = () => {
+    setAddModalIsOpen(true);
   };
+
+  const closeAddModal = () => {
+    setAddModalIsOpen(false);
+  };
+
+  const openUpdateModal = () => {
+    setUpdateModalIsOpen(true);
+  };
+
+  const closeUpdateModal = () => {
+    setUpdateModalIsOpen(false);
+  };
+
+  function formatarData(animal: AnimalType): string | undefined {
+    if (animal.data) {
+      const dataObj = new Date(animal.data);
+
+      if (isNaN(dataObj.getTime())) {
+        return undefined; // Retorna undefined se a data não for válida
+      }
+
+      const dia = dataObj.getDate();
+      const mes = dataObj.getMonth() + 1; // Lembrando que os meses são indexados em 0 (janeiro = 0, fevereiro = 1, etc.)
+      const ano = dataObj.getFullYear();
+
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    return undefined;
+  }
 
   return (
     <div className="vet-container overflow-hidden">
@@ -67,30 +127,36 @@ const Animal: React.FC = () => {
         <h1>Selecione o Proprietario</h1>
       ) : (
         <div className="body-container">
-          {animal === null ? (
-            <>
-              <ReactModal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Animal Modal"
-              >
-                <div className="modal-container">
-                  <HeaderModal
-                    selected="Adicione os dados do animal"
-                    closeModal={closeModal}
-                  />
-
-                  <FormularioAnimal
-                    newAnimal={newAnimal}
-                    setNewAnimal={setNewAnimal}
-                    handleSubmit={handleSubmit}
-                  />
+          {animal ? (
+            <div className="w-full h-full overflow-hidden">
+              <div className="header-container">
+                <h2 className="text-xl uppercase">{animal.nome}</h2>
+                <div>
+                  <button className="vet-botao" onClick={() => setAnimal(null)}>
+                    Voltar
+                  </button>
                 </div>
-              </ReactModal>
+              </div>
+              <div className="grid grid-cols-3  w-full gap-1">
+                <div className="data-container">{animal.especie}</div>
+                <div className="data-container">Raça: {animal.raca}</div>
+                <div className="data-container">Sexo: {animal.sexo}</div>
+                <div className="data-container">Idade: {animal.idade}</div>
+                <div className="data-container">Cor: {animal.cor}</div>
+                <div className="data-container">{animal.temperamento}</div>
+                <div className="data-container">
+                  Castrado: {animal.castrado ? "Sim" : "Não"}
+                </div>
+                <div className="data-container">
+                  Peso: {animal.peso} em {formatarData(animal)}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <>
               <div className="header-container">
                 <h2 className="text-xl ">Animais</h2>
-                <button className="vet-botao" onClick={openModal}>
+                <button className="vet-botao" onClick={openAddModal}>
                   Adicionar Animal
                 </button>
               </div>
@@ -102,16 +168,13 @@ const Animal: React.FC = () => {
                     <div
                       key={index}
                       className="item-list dark:bg-gray-950"
-                      onClick={() => setAnimal(animal)}
+                      onClick={() => handleAnimalClick(animal)}
                     >
                       <div className="flex justify-between w-full mr-8">
                         <h2 className="">{animal.nome}</h2>
                         <p className="">{animal.especie}</p>
                       </div>
                       <div className="flex justify-between w-16 ">
-                        <button>
-                          <PencilSquareIcon className="h-5 " />
-                        </button>
                         <button>
                           <TrashIcon className="h-5 " />
                         </button>
@@ -120,28 +183,37 @@ const Animal: React.FC = () => {
                   ))
                 )}
               </div>
-            </>
-          ) : (
-            <div className="w-full h-full overflow-hidden">
-              <div className="header-container">
-                <h2 className="text-xl uppercase">{animal.nome}</h2>
-                <button className="vet-botao" onClick={() => setAnimal(null)}>
-                  Voltar
-                </button>
-              </div>
-              <div className="grid grid-cols-3  w-full gap-1">
-                <div className="data-container">{animal.especie}</div>
-                <div className="data-container">Raça: {animal.raca}</div>
-                <div className="data-container">Sexo: {animal.sexo}</div>
-                <div className="data-container">Peso: {animal.peso}</div>
-                <div className="data-container">Idade: {animal.idade}</div>
-                <div className="data-container">Cor: {animal.cor}</div>
-                <div className="data-container">{animal.temperamento}</div>
-                <div className="data-container">
-                  Castrado: {animal.castrado ? "Sim" : "Não"}
+              <Modal
+                isOpen={addModalIsOpen}
+                onRequestClose={closeAddModal}
+                style={customStyles}
+              >
+                <div className="modal-container">
+                  <HeaderModal
+                    selected="Adicione os dados do animal"
+                    closeModal={closeAddModal}
+                  />
+
+                  <FormularioAnimal handleSubmit={handleSubmit} />
                 </div>
-              </div>
-            </div>
+              </Modal>
+              <Modal
+                isOpen={updateModalIsOpen}
+                onRequestClose={() => setUpdateModalIsOpen(false)}
+                style={customStyles}
+              >
+                <div className="modal-container">
+                  <HeaderModal
+                    selected="Adicione os dados do animal"
+                    closeModal={closeUpdateModal}
+                  />
+                  <FormularioAnimal
+                    data={newAnimal}
+                    handleSubmit={handleUpdate}
+                  />
+                </div>
+              </Modal>
+            </>
           )}
         </div>
       )}

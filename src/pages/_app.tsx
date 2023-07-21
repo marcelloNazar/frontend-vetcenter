@@ -4,6 +4,8 @@ import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AtendimentoProvider } from "@/contexts/AtendimentoContext";
+import { SelectedOwnerProvider } from "../contexts/SelectedOwnerContext";
+import { AnimalProvider } from "../contexts/AnimalContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {

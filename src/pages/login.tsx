@@ -1,6 +1,5 @@
 import { FormEvent, useState, useContext } from "react";
 import { useRouter } from "next/router";
-import http from "@/utils/http";
 import { AuthContext } from "@/contexts/AuthContext";
 
 const LoginPage = () => {

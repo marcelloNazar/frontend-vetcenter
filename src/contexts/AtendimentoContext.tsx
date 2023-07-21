@@ -1,5 +1,5 @@
 import React, { createContext, useState, ReactNode } from "react";
-import { Atendimento, Animal, Owner } from "@/types/types";
+import { Atendimento, Animal, Owner, AnamneseRecord } from "@/types/types";
 
 type AtendimentoContextType = {
   atendimento: Atendimento | null;
@@ -10,6 +10,8 @@ type AtendimentoContextType = {
   setProprietario: (proprietario: Owner | null) => void;
   animal: Animal | null;
   setAnimal: (animal: Animal | null) => void;
+  anamnese: AnamneseRecord | null;
+  setAnamnese: (anamnese: AnamneseRecord | null) => void;
 };
 
 const AtendimentoContext = createContext<AtendimentoContextType | undefined>(
@@ -26,11 +28,13 @@ export const AtendimentoProvider: React.FC<AtendimentoProviderProps> = ({
   const [atendimento, setAtendimento] = useState<Atendimento | null>(null);
   const [proprietario, setProprietario] = useState<Owner | null>(null);
   const [animal, setAnimal] = useState<Animal | null>(null);
+  const [anamnese, setAnamnese] = useState<AnamneseRecord | null>(null); // Adicionei a anamnese aqui
 
   const resetAtendimento = () => {
     setAtendimento(null);
     setProprietario(null);
     setAnimal(null);
+    setAnamnese(null); // E também aqui
   };
 
   const removeAtendimento = () => {
@@ -48,6 +52,8 @@ export const AtendimentoProvider: React.FC<AtendimentoProviderProps> = ({
         setProprietario,
         animal,
         setAnimal,
+        anamnese, // E aqui
+        setAnamnese, // E aqui
       }}
     >
       {children}

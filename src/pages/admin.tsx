@@ -7,8 +7,11 @@ import { AnimalProvider } from "../contexts/AnimalContext";
 import Proprietario from "@/components/admin/Proprietario";
 import Animal from "@/components/admin/Animal";
 import Adicionar from "@/components/admin/Adicionar";
-import Estetica from "@/components/admin/Estetica";
 import TodosAtendimentos from "@/components/admin/TodosAtendimentos";
+import AtendimentoPagosFalse from "@/components/admin/AtendimentosPagosFalse";
+
+import PropUser from "@/components/user/PropUser";
+import AnimalUser from "@/components/user/AnimalUser";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { token } = parseCookies(context);
@@ -46,17 +49,17 @@ const AdminHomePage = () => {
               </div>
               <div className="w-2/3 flex flex-col h-full">
                 <div className="w-full h-1/4 p-2 pt-4 pr-4">
-                  <Proprietario />
+                  <PropUser />
                 </div>
                 <div className="w-full h-1/4 p-2 pr-4">
-                  <Animal />
+                  <AnimalUser />
                 </div>
                 <div className="w-full flex h-2/4 pb-2">
                   <div className="w-1/2 h-full p-2">
-                    <Estetica />
+                    <TodosAtendimentos />
                   </div>
                   <div className="w-1/2 h-full p-2 pr-4">
-                    <TodosAtendimentos />
+                    <AtendimentoPagosFalse />
                   </div>
                 </div>
               </div>

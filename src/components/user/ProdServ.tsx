@@ -5,6 +5,7 @@ import ReactModal from "react-modal";
 import HeaderModal from "../partials/HeaderModal";
 import { customStyles } from "@/styles/styles";
 import { Produto, Servico } from "@/types/types";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
 //Componente para o veterinario adicionar produtos e serviços ao atendimento
 const ProdServ: React.FC = () => {
@@ -46,17 +47,25 @@ const ProdServ: React.FC = () => {
   };
 
   const handleProdClick = (produto: Produto) => {
-    setSelectedProdutos([...selectedProdutos, produto]);
+    setSelectedProdutos([...selectedProdutos, { ...produto, quantidade: 1 }]);
     setProdModalIsOpen(false);
   };
 
   const handleServClick = (servico: Servico) => {
-    setSelectedServicos([...selectedServicos, servico]);
+    setSelectedServicos([...selectedServicos, { ...servico, quantidade: 1 }]);
     setServModalIsOpen(false);
   };
 
   const handleBackClick = () => {
     resetAtendimento();
+  };
+
+  const handleRemoveProduto = (index: number) => {
+    setSelectedProdutos((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleRemoveServico = (index: number) => {
+    setSelectedServicos((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleQuantityChange = (
@@ -84,12 +93,12 @@ const ProdServ: React.FC = () => {
   const handleFinalizarClick = () => {
     const atendimentoProdutos = selectedProdutos.map(({ id, quantidade }) => ({
       produtoId: id,
-      quantidade,
+      quantidade: quantidade || 1,
     }));
 
     const atendimentoServicos = selectedServicos.map(({ id, quantidade }) => ({
       servicoId: id,
-      quantidade,
+      quantidade: quantidade || 1,
     }));
 
     http
@@ -98,14 +107,23 @@ const ProdServ: React.FC = () => {
         atendimentoServicos,
       })
       .then((r) => {
-        removeAtendimento();
+        if (r.status === 200) {
+          removeAtendimento();
+        } else {
+        }
       })
-      .catch((e) => console.error("Error:", e));
+      .catch((e) => alert("Erro ao atualizar o atendimento"));
   };
 
   const total =
-    selectedProdutos.reduce((acc, prod) => acc + prod.valor, 0) +
-    selectedServicos.reduce((acc, serv) => acc + serv.valor, 0);
+    selectedProdutos.reduce(
+      (acc, prod) => acc + prod.valor * prod.quantidade,
+      0
+    ) +
+    selectedServicos.reduce(
+      (acc, serv) => acc + serv.valor * serv.quantidade,
+      0
+    );
 
   // Modais
   const renderProdModal = () => (
@@ -122,20 +140,27 @@ const ProdServ: React.FC = () => {
         type="text"
         placeholder="Pesquisar produtos..."
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full bg-white border rounded"
+        className="w-full bg-white text-black border rounded mb-2"
       />
       {produtos
         .filter((produto) =>
           produto.nome.toLowerCase().includes(searchTerm.toLowerCase())
         )
         .map((produto: Produto) => (
-          <div
-            className="data-container  text-black border-t border-b"
-            key={produto.id}
-          >
-            <p>{produto.nome}</p>
-            <p>R$ {produto.valor}</p>
-            <button onClick={() => handleProdClick(produto)}>Adicionar</button>
+          <div className="data-modal-container text-black" key={produto.id}>
+            <p className="data-modal w-1/2">{produto.nome}</p>
+            <p className="data-modal w-2/6">
+              <p>Preço Unitario</p>
+              R$ {produto.valor}
+            </p>
+            <div className="flex w-1/6 justify-center bg-gray-200">
+              <button
+                className="transform transition duration-500 hover:scale-110"
+                onClick={() => handleProdClick(produto)}
+              >
+                Adicionar
+              </button>
+            </div>
           </div>
         ))}
     </ReactModal>
@@ -155,20 +180,27 @@ const ProdServ: React.FC = () => {
         type="text"
         placeholder="Pesquisar serviços..."
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full bg-white border rounded"
+        className="w-full bg-white text-black border rounded mb-2"
       />
       {servicos
         .filter((servico) =>
           servico.nome.toLowerCase().includes(searchTerm.toLowerCase())
         )
         .map((servico: Servico) => (
-          <div
-            className="data-container text-black border-t border-b"
-            key={servico.id}
-          >
-            <p>{servico.nome}</p>
-            <p>R$ {servico.valor}</p>
-            <button onClick={() => handleServClick(servico)}>Adicionar</button>
+          <div className="data-modal-container text-black" key={servico.id}>
+            <p className="data-modal w-1/2">{servico.nome}</p>
+            <p className="data-modal w-2/6">
+              <p>Preço Unitario</p>
+              R$ {servico.valor}
+            </p>
+            <div className="flex w-1/6 justify-center bg-gray-200">
+              <button
+                className="transform transition duration-500 hover:scale-110"
+                onClick={() => handleServClick(servico)}
+              >
+                Adicionar
+              </button>
+            </div>
           </div>
         ))}
     </ReactModal>
@@ -176,14 +208,14 @@ const ProdServ: React.FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-full w-full">
-      <div className="flex justify-between w-full p-2">
+      <div className="flex justify-between w-full p-2 ">
         <h1>Atendimento</h1>
         <button className="vet-botao" onClick={handleBackClick}>
           Voltar
         </button>
       </div>
       <div className="vet-container">
-        <div className="flex p-2 pt-6 pb-4 items-center justify-between w-full">
+        <div className="flex p-2 items-center justify-between w-full">
           <button className="vet-botao" onClick={openProdModal}>
             Adicionar Produto
           </button>
@@ -193,36 +225,58 @@ const ProdServ: React.FC = () => {
         </div>
         {renderProdModal()}
         {renderServModal()}
-        <div className="mt-4 space-y-2  w-full overflow-y-auto flex-grow rounded p-2 border bg-white dark:bg-black border-gray-500">
+        <div className="mt-2 space-y-2 border-t w-full overflow-y-auto flex-grow p-2 border-b border-black">
           {selectedProdutos.map((produto: any, index: number) => (
-            <div key={index} className="item-list dark:bg-gray-950">
-              <p>{produto.nome}</p>
-              <div className="flex justify-between w-1/3">
+            <div key={index} className="item-list py-1 dark:bg-gray-950">
+              <p>{produto.nome.split(" ").slice(0, 1).join(" ")}</p>
+              <div className="flex justify-between w-1/2">
                 <input
-                  className="w-6 flex justify-center items-center bg-white rounded text-black mr-2"
+                  className="w-7 flex justify-center items-center bg-white text-black mr-2"
                   type="number"
                   defaultValue={1}
                   min={1}
                   value={produto.quantidade}
                   onChange={(e) => handleQuantityChange(index, "produto", e)}
                 />
-                <p>R$ {produto.valor.toFixed(2)}</p>
+                <button
+                  className="w-1/3"
+                  onClick={() => handleRemoveProduto(index)}
+                >
+                  <TrashIcon className="h-5 transform transition duration-500 hover:scale-110" />
+                </button>
+                <p className="flex  justify-end w-full pl-1">
+                  <p>R$ </p>{" "}
+                  {produto.valor.toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                  })}
+                </p>
               </div>
             </div>
           ))}
           {selectedServicos.map((servico: any, index: number) => (
-            <div key={index} className="item-list dark:bg-gray-950">
-              <p>{servico.nome}</p>
-              <div className="flex justify-between w-1/3">
+            <div key={index} className="item-list py-1 dark:bg-gray-950">
+              <p>{servico.nome.split(" ").slice(0, 1).join(" ")}</p>
+              <div className="flex justify-between w-1/2">
                 <input
-                  className="w-6 flex justify-center items-center bg-white text-black mr-2"
+                  className="w-7 flex justify-center items-center bg-white text-black mr-2"
                   type="number"
                   defaultValue={1}
                   min={1}
                   value={servico.quantidade}
                   onChange={(e) => handleQuantityChange(index, "servico", e)}
                 />
-                <p>R$ {servico.valor.toFixed(2)}</p>
+                <button
+                  className="w-1/3"
+                  onClick={() => handleRemoveServico(index)}
+                >
+                  <TrashIcon className="h-5 transform transition duration-500 hover:scale-110" />
+                </button>
+                <p className="flex justify-end w-full pl-1">
+                  <p>R$ </p>{" "}
+                  {servico.valor.toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                  })}
+                </p>
               </div>
             </div>
           ))}
@@ -231,7 +285,12 @@ const ProdServ: React.FC = () => {
           <button className="vet-botao" onClick={handleFinalizarClick}>
             Finalizar
           </button>
-          <p className="text-lg">R$ {total.toFixed(2)}</p>
+          <p className="text-lg">
+            R${" "}
+            {total.toLocaleString("pt-BR", {
+              minimumFractionDigits: 2,
+            })}
+          </p>
         </div>
       </div>
     </div>

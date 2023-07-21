@@ -8,6 +8,7 @@ export interface Owner {
   nascimento: string;
   sexo: string;
   nomeMae: string;
+  divida: number;
   endereco: {
     rua: string;
     bairro: string;
@@ -30,25 +31,20 @@ export interface Animal {
   cor: string;
   temperamento: string;
   castrado: boolean;
+  data: string;
+  nascimento: string;
   proprietario: Owner;
 }
 
 export interface Veterinario {
   id: number;
+  username: string;
+  password: string;
   nome: string;
   email: string;
   telefone: string;
-  crv: string;
-  especialidade: string;
-  endereco: {
-    rua: string;
-    bairro: string;
-    cep: string;
-    cidade: string;
-    uf: string;
-    numero: string;
-    complemento: string;
-  };
+  role: string;
+  crmv: string;
 }
 
 export interface Atendimento {
@@ -57,6 +53,7 @@ export interface Atendimento {
   animal: Animal;
   proprietario: Owner;
   pago: boolean;
+  data: string;
   total: number;
   produtos: Produto[];
   servicos: Servico[];
@@ -66,6 +63,7 @@ export interface Produto {
   id: number;
   nome: string;
   valor: number;
+  descricao: string;
   quantidade: number;
 }
 
@@ -73,6 +71,7 @@ export interface Servico {
   id: number;
   nome: string;
   valor: number;
+  descricao: string;
   quantidade: number;
 }
 
