@@ -179,7 +179,7 @@ const PropUser: React.FC = () => {
             closeModal={closeModal}
           />
           <input
-            className="w-full p-2 rounded"
+            className="w-full p-2 rounded bg-white text-black"
             type="text"
             value={pesquisa}
             placeholder="Pesquisar proprietario..."
