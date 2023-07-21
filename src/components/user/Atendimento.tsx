@@ -109,23 +109,21 @@ const AtendimentoComponent: React.FC = () => {
               </div>
             )}
             {atendimentos.map((atendimento, index) => (
-              <div className="item-list dark:bg-gray-950">
-                <div
-                  key={index}
-                  className="w-full flex"
-                  onClick={() => onAtendimentoClick(atendimento)}
-                >
-                  <p className="flex w-1/2">
-                    {atendimento.proprietario.nome
-                      .split(" ")
-                      .slice(0, 2)
-                      .join(" ")}
-                  </p>
-                  <p className="flex w-1/2">
-                    <p className="mr-2">Animal:</p>
-                    {atendimento.animal.nome.split(" ").slice(0, 1).join(" ")}
-                  </p>
-                </div>
+              <div
+                key={index}
+                className="item-list dark:bg-gray-950"
+                onClick={() => onAtendimentoClick(atendimento)}
+              >
+                <p className="flex w-1/2">
+                  {atendimento.proprietario.nome
+                    .split(" ")
+                    .slice(0, 2)
+                    .join(" ")}
+                </p>
+                <p className="flex w-1/2">
+                  <p className="mr-2">Animal:</p>
+                  {atendimento.animal.nome.split(" ").slice(0, 1).join(" ")}
+                </p>
                 <button onClick={() => handleDelete(atendimento.id)}>
                   <TrashIcon className="h-5 transform transition duration-500 hover:scale-110" />
                 </button>
