@@ -90,11 +90,11 @@ const FormularioProprietario: React.FC<FormularioProprietarioProps> = ({
         </div>
         <div className="w-full px-1">
           <input
-            type="text"
+            type="tel"
             {...register("telefone")}
             value={telefone}
             onChange={(e) => setTelefone(e.target.value)}
-            placeholder="Telefone"
+            placeholder="(xx) xxxxx-xxxx"
             className="vet-input"
             required
           />
@@ -108,7 +108,7 @@ const FormularioProprietario: React.FC<FormularioProprietarioProps> = ({
             {...register("cpf")}
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
-            placeholder="CPF"
+            placeholder="CPF/CNPJ"
             className="vet-input"
             required
           />
@@ -122,7 +122,7 @@ const FormularioProprietario: React.FC<FormularioProprietarioProps> = ({
             {...register("telefone1")}
             value={telefone1}
             onChange={(e) => setTelefone1(e.target.value)}
-            placeholder="Telefone 2"
+            placeholder="(xx) xxxxx-xxxx"
             className="vet-input"
           />
         </div>
@@ -132,7 +132,7 @@ const FormularioProprietario: React.FC<FormularioProprietarioProps> = ({
             {...register("telefone2")}
             value={telefone2}
             onChange={(e) => setTelefone2(e.target.value)}
-            placeholder="Telefone 3"
+            placeholder="(xx) xxxxx-xxxx"
             className="vet-input"
           />
         </div>

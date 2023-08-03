@@ -85,7 +85,9 @@ const ServicoComponent: React.FC = () => {
         <h1>Servicos</h1>
         <div>
           <button
-            onClick={() => setModalIsOpen(true)}
+            onClick={() => {setModalIsOpen(true)
+            fetchServico()
+            }}
             className="vet-botao mr-4"
           >
             Ver Todos

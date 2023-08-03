@@ -17,10 +17,6 @@ const VeterinarioComponent: React.FC = () => {
   const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false);
   const [pesquisa, setPesquisa] = useState("");
 
-  useEffect(() => {
-    fetchVeterinario();
-  }, []);
-
   const fetchVeterinario = () => {
     http
       .get("adm/atendimento/usuarios")
@@ -79,7 +75,10 @@ const VeterinarioComponent: React.FC = () => {
         <h1>Veterinarios</h1>
         <div>
           <button
-            onClick={() => setModalIsOpen(true)}
+            onClick={() => {
+              setModalIsOpen(true);
+              fetchVeterinario();
+            }}
             className="vet-botao mr-4"
           >
             Ver Todos

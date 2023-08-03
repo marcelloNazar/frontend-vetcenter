@@ -42,21 +42,21 @@ const AdminHomePage = () => {
           </header>
           <div className="w-full flex max-w-7xl mx-auto">
             <main className="flex pt-10 w-screen h-screen">
-              <div className="w-1/3 flex flex-col overflow-hidden p-4 pr-2">
+              <div className="w-1/3 flex flex-col overflow-hidden p-2 pr-0">
                 <Adicionar />
               </div>
               <div className="w-2/3 flex flex-col h-full">
-                <div className="w-full h-1/4 p-2 pt-4 pr-4">
+                <div className="w-full h-1/4 p-2 pb-0">
                   <PropUser />
                 </div>
-                <div className="w-full h-1/4 p-2 pr-4">
+                <div className="w-full h-1/4 p-2 pb-0">
                   <AnimalUser />
                 </div>
-                <div className="w-full flex h-2/4 pb-2">
-                  <div className="w-1/2 h-full p-2">
+                <div className="w-full flex h-2/4">
+                  <div className="w-1/2 h-full p-2 pr-0">
                     <TodosAtendimentos />
                   </div>
-                  <div className="w-1/2 h-full p-2 pr-4">
+                  <div className="w-1/2 h-full p-2">
                     <AtendimentoPagosFalse />
                   </div>
                 </div>

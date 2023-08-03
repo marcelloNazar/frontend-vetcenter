@@ -17,7 +17,7 @@ const ProdServ: React.FC = () => {
   const [selectedProdutos, setSelectedProdutos] = useState<Produto[]>([]);
   const [selectedServicos, setSelectedServicos] = useState<Servico[]>([]);
 
-  const { resetAtendimento, atendimento, removeAtendimento } = useAtendimento();
+  const { resetAtendimento, atendimento } = useAtendimento();
 
   const fetchProdutos = () => {
     http
@@ -108,7 +108,7 @@ const ProdServ: React.FC = () => {
       })
       .then((r) => {
         if (r.status === 200) {
-          removeAtendimento();
+          resetAtendimento();
         } else {
         }
       })

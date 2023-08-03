@@ -85,7 +85,10 @@ const ProdutoComponent: React.FC = () => {
         <h1>Produtos</h1>
         <div>
           <button
-            onClick={() => setModalIsOpen(true)}
+            onClick={() => {
+              setModalIsOpen(true);
+              fetchProduto();
+            }}
             className="vet-botao mr-4"
           >
             Ver Todos

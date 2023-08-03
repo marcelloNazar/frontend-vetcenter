@@ -27,7 +27,7 @@ const Header = () => {
 
   return (
     <header className=" bg-orange-600 w-full flex justify-center">
-      <div className="p-1 px-4 w-full max-w-7xl flex justify-between items-center text-white">
+      <div className="p-1 px-2 w-full max-w-7xl flex justify-between items-center text-white">
         {role === "ADMIN" ? (
           <button onClick={handleHomeClick}>
             <h1>Administrador</h1>

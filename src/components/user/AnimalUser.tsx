@@ -100,6 +100,13 @@ const AnimalUser: React.FC = () => {
     setNewAnimal(animal);
   };
 
+  function letrasMaiusculas(str: string) {
+    return str
+      .split(" ")
+      .map((palavra) => palavra.charAt(0).toUpperCase() + palavra.slice(1))
+      .join(" ");
+  }
+
   return (
     <div className="vet-container overflow-hidden">
       {!animal && proprietario && (
@@ -158,10 +165,10 @@ const AnimalUser: React.FC = () => {
           <div className="grid grid-cols-2 mr-28">
             <div className="data-container">
               <div>Especie:</div>
-              {animal.especie}
+              {letrasMaiusculas(animal.especie)}
             </div>
             <div className="data-container">
-              <div>Raça:</div> {animal.raca}
+              <div>Raça:</div> {letrasMaiusculas(animal.raca)}
             </div>
             <div className="data-container">
               <div>Sexo:</div>{" "}
@@ -172,17 +179,18 @@ const AnimalUser: React.FC = () => {
               )}
             </div>
             <div className="data-container">
-              <div>Peso:</div> {animal.peso} Kg
+              <div>Peso:</div>{" "}
+              {parseFloat(animal.peso.replace(",", ".")).toFixed(3)} Kg
             </div>
             <div className="data-container">
               <div>Idade:</div> {animal.idade}
             </div>
             <div className="data-container">
-              <div>Cor</div> {animal.cor}
+              <div>Cor</div> {letrasMaiusculas(animal.cor)}
             </div>
             <div className="data-container">
               <div>Temperamento</div>
-              {animal.temperamento}
+              {letrasMaiusculas(animal.temperamento.toLowerCase())}
             </div>
             <div className="data-container">
               <div>Castrado:</div> {animal.castrado ? "Sim" : "Não"}

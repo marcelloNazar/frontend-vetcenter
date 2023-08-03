@@ -6,12 +6,60 @@ import HeaderModal from "../partials/HeaderModal";
 import { customStyles } from "@/styles/styles";
 import DetalhesAtendimento from "./partials/DetalhesAtendimento";
 
-const AtendimentoPagosFalse: React.FC = () => {
+const AtendimentosMesPagosFalse: React.FC = () => {
   const [atendimentos, setAtendimentos] = useState<Atendimento[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentAtendimento, setCurrentAtendimento] =
     useState<Atendimento | null>(null);
   const [isPago, setIsPago] = useState(false);
+
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const startYear = 2023;
+  const yearsCount = currentYear - startYear + 1;
+
+  const months = [
+    { value: 1, label: "Janeiro" },
+    { value: 2, label: "Fevereiro" },
+    { value: 3, label: "Março" },
+    { value: 4, label: "Abril" },
+    { value: 5, label: "Maio" },
+    { value: 6, label: "Junho" },
+    { value: 7, label: "Julho" },
+    { value: 8, label: "Agosto" },
+    { value: 9, label: "Setembro" },
+    { value: 10, label: "Outubro" },
+    { value: 11, label: "Novembro" },
+    { value: 12, label: "Dezembro" },
+  ];
+
+  const years = Array.from({ length: yearsCount }, (_, index) => ({
+    value: startYear + index,
+    label: (startYear + index).toString(),
+  }));
+
+  const mesAtual = currentDate.getMonth() + 1;
+
+  const [mes, setMes] = useState(mesAtual);
+  const [ano, setAno] = useState(currentYear);
+
+  const handleMonthChange = (event: any) => {
+    setMes(event.target.value);
+  };
+
+  const handleYearChange = (event: any) => {
+    setAno(event.target.value);
+  };
+
+  const calcularTotalAtendimentos = () => {
+    return atendimentos.reduce((total, atendimento) => {
+      if (atendimento.total) {
+        return total + atendimento.total;
+      } else {
+        return total;
+      }
+    }, 0);
+  };
 
   const abrirModal = (atendimento: Atendimento) => {
     setCurrentAtendimento(atendimento);
@@ -32,15 +80,15 @@ const AtendimentoPagosFalse: React.FC = () => {
     fetchAtendimentos();
     const interval = setInterval(() => {
       fetchAtendimentos();
-    }, 1 * 5 * 1000);
+    }, 1 * 60 * 1000);
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [mes, ano]);
 
   const fetchAtendimentos = async () => {
     http
-      .get("adm/atendimento/naopagos")
+      .get(`adm/atendimento/datafalse?mes=${mes}&ano=${ano}`)
       .then((r) => setAtendimentos(r.data.content))
       .catch((e) => {
         console.error("Erro:", e);
@@ -67,10 +115,29 @@ const AtendimentoPagosFalse: React.FC = () => {
 
   return (
     <div className="vet-container overflow-hidden">
-      <div className="flex justify-center w-full  border-black border-b">
-        <h2>Atendimentos Não Pagos</h2>
+      <div className="flex justify-between w-full items-center pl-2 border-black border-b">
+        <h2 className="w-full">Não Pagos</h2>
+        <label className="m-1 px-4 py-1 border rounded bg-white text-black outline-none">
+          <select value={mes} onChange={handleMonthChange}>
+            {months.map((month) => (
+              <option key={month.value} value={month.value}>
+                {month.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="m-1 px-4 py-1 border rounded bg-white text-black outline-none">
+          <select value={ano} onChange={handleYearChange}>
+            {years.map((year) => (
+              <option key={year.value} value={year.value}>
+                {year.label}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
-      <div className="vet-container flex-col h-full  justify-start overflow-hidden py-1 p-2">
+      <div className="vet-container flex-col h-full  justify-start overflow-auto p-2">
         {atendimentos.map((atendimento, index) => (
           <div
             key={index}
@@ -84,13 +151,22 @@ const AtendimentoPagosFalse: React.FC = () => {
             <p className="w-1/4 justify-between flex">
               R$
               <p>
-                {atendimento.total.toLocaleString("pt-BR", {
+                {atendimento.total?.toLocaleString("pt-BR", {
                   minimumFractionDigits: 2,
                 })}
               </p>
             </p>
           </div>
         ))}
+      </div>
+      <div className="flex w-full p-2 border-t  border-black justify-between">
+        <p>Quantidade: {atendimentos.length}</p>
+        <p>
+          Total: R${" "}
+          {calcularTotalAtendimentos().toLocaleString("pt-BR", {
+            minimumFractionDigits: 2,
+          })}
+        </p>
       </div>
       <Modal
         style={customStyles}
@@ -113,4 +189,4 @@ const AtendimentoPagosFalse: React.FC = () => {
   );
 };
 
-export default AtendimentoPagosFalse;
+export default AtendimentosMesPagosFalse;

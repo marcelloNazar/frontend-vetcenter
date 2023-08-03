@@ -28,7 +28,7 @@ const AtendimentoComponent: React.FC = () => {
     const interval = setInterval(() => {
       fetchAtendimentos();
       fetchAtendimentosConcluidos();
-    }, 1 * 60 * 1000);
+    }, 1 * 5 * 1000);
     return () => {
       clearInterval(interval);
     };

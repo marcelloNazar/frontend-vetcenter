@@ -22,9 +22,7 @@ const PropUser: React.FC = () => {
 
   const [updateOwner, setUpdateOwner] = useState<Partial<Owner>>({});
 
-  useEffect(() => {
-    fetchProprietario();
-  }, []);
+  useEffect(() => {}, []);
 
   const fetchProprietario = () => {
     http
@@ -93,6 +91,53 @@ const PropUser: React.FC = () => {
     setUpdateModalIsOpen(false);
   };
 
+  const formatTelefone = (telefone: string) => {
+    if (telefone.length === 10) {
+      return `(${telefone.slice(0, 2)}) ${telefone.slice(
+        2,
+        6
+      )}-${telefone.slice(6)}`;
+    } else if (telefone.length === 11) {
+      return `(${telefone.slice(0, 2)}) ${telefone.slice(
+        2,
+        7
+      )}-${telefone.slice(7)}`;
+    } else {
+      return telefone;
+    }
+  };
+
+  const formatCPFCNPJ = (cpfcnpj: string) => {
+    if (cpfcnpj.length === 11) {
+      return `${cpfcnpj.slice(0, 3)}.${cpfcnpj.slice(3, 6)}.${cpfcnpj.slice(
+        6,
+        9
+      )}-${cpfcnpj.slice(9)}`;
+    } else if (cpfcnpj.length === 14) {
+      return `${cpfcnpj.slice(0, 2)}.${cpfcnpj.slice(2, 5)}.${cpfcnpj.slice(
+        5,
+        8
+      )}/${cpfcnpj.slice(8, 12)}-${cpfcnpj.slice(12)}`;
+    } else {
+      return cpfcnpj;
+    }
+  };
+
+  function formatarData(data: string) {
+    const partesData = data.split("-");
+    const ano = partesData[0];
+    const mes = partesData[1];
+    const dia = partesData[2];
+
+    return `${dia}/${mes}/${ano}`;
+  }
+  function letrasMaiusculas(str: string) {
+    return str
+      .split(" ")
+      .map((palavra) => palavra.charAt(0).toUpperCase() + palavra.slice(1))
+      .join(" ");
+  }
+
   return (
     <div className="vet-container overflow-hidden">
       {proprietario ? (
@@ -114,32 +159,35 @@ const PropUser: React.FC = () => {
           <div className="grid grid-cols-2 mr-28">
             <div className="data-container">
               <div>Telefone:</div>
-              <div className="">{proprietario.telefone}</div>
+              <div className="">{formatTelefone(proprietario.telefone)}</div>
             </div>
-
             <div className="data-container">
               <div>CPF:</div>
-              <div>{proprietario.cpf}</div>
+              <div>{formatCPFCNPJ(proprietario.cpf)}</div>
             </div>
             <div className="data-container">
               <div>Nascimento:</div>
-              <div>{proprietario.nascimento}</div>
+              <div>{formatarData(proprietario.nascimento)}</div>
             </div>
             <div className="data-container">
               <div>Nome da Mae:</div>
-              <div>{proprietario.nomeMae.split(" ").slice(0, 2).join(" ")}</div>
+              <div>
+                {letrasMaiusculas(
+                  proprietario.nomeMae.split(" ").slice(0, 2).join(" ")
+                )}
+              </div>
             </div>
             <div className="data-container">
               <div>Cidade:</div>
-              <div>{proprietario.endereco.cidade}</div>
+              <div>{letrasMaiusculas(proprietario.endereco.cidade)}</div>
             </div>
             <div className="data-container">
               <div>Sexo:</div>
-              <div>{proprietario.sexo}</div>
+              <div>{letrasMaiusculas(proprietario.sexo.toLowerCase())}</div>
             </div>
             <div className="data-container">
               <div>Estado:</div>
-              <div>{proprietario.endereco.uf}</div>
+              <div>{letrasMaiusculas(proprietario.endereco.uf) }</div>
             </div>
             <div className="data-container">
               <div>Divida:</div>
@@ -156,7 +204,10 @@ const PropUser: React.FC = () => {
         <div className="flex justify-center items-center">
           <button
             className="vet-botao m-2"
-            onClick={() => setModalIsOpen(true)}
+            onClick={() => {
+              setModalIsOpen(true);
+              fetchProprietario();
+            }}
           >
             Selecione o Proprietário
           </button>

@@ -144,11 +144,11 @@ const Anamnsese: React.FC = () => {
             </div>
             <div className="data-container">
               <div>Cansaço: </div>
-              <p>{anamnese.cansaco}</p>
+              <p>{anamnese.cansaco ? "Sim" : "Não"}</p>
             </div>
             <div className="data-container">
               <div>Tosse: </div>
-              <p>{anamnese.tosse}</p>
+              <p>{anamnese.tosse ? "Sim" : "Não"}</p>
             </div>
             <div className="data-container">
               <div>Pulso: </div>

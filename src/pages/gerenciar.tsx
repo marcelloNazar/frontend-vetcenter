@@ -4,6 +4,9 @@ import VeterinarioComponent from "@/components/admin/partials/Veterinario";
 import ProdutoComponent from "@/components/admin/partials/Produto";
 import ServicoComponent from "@/components/admin/partials/Servico";
 import { useRouter } from "next/router";
+import AtendimentosMes from "@/components/admin/AtendimentoMes";
+import AtendimentosMesPagos from "@/components/admin/AtendimentosMesPagos";
+import AtendimentosMesPagosFalse from "@/components/admin/AtendimentosMesPagosFalse";
 
 const Gerenciamento: React.FC = () => {
   const router = useRouter();
@@ -17,13 +20,13 @@ const Gerenciamento: React.FC = () => {
       </header>
       <div className="w-full flex max-w-7xl mx-auto">
         <main className="flex flex-col pt-10 w-screen h-screen">
-          <div className="flex justify-between p-4">
+          <div className="flex justify-between p-2 pt-4">
             <h1 className="flex border-b w-1/2">Area Administrativa</h1>
             <button onClick={handleClick} className="vet-botao">
               Voltar
             </button>
           </div>
-          <div className="flex w-full justify-between gap-4 p-4 pt-0">
+          <div className="flex w-full justify-between gap-2 p-2 pt-0">
             <div className="w-1/3">
               <VeterinarioComponent />
             </div>
@@ -34,11 +37,18 @@ const Gerenciamento: React.FC = () => {
               <ServicoComponent />
             </div>
           </div>
-          <div className="flex flex-col w-full h-full p-4 pt-0">
+          <div className="flex w-full p-2">
             <h1 className="flex border-b w-1/2">Financeiro</h1>
-            <div className="flex w-full h-full">
-              <div className=" w-1/2 h-full"></div>
-              <div className="w-1/2 h-full"></div>
+          </div>
+          <div className="flex w-full h-full justify-between gap-2 p-2 pt-0">
+            <div className=" w-1/3 h-full">
+              <AtendimentosMes />
+            </div>
+            <div className="w-1/3 h-full">
+              <AtendimentosMesPagos />
+            </div>
+            <div className="w-1/3 h-full">
+              <AtendimentosMesPagosFalse />
             </div>
           </div>
         </main>

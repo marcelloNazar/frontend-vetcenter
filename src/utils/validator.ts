@@ -17,10 +17,16 @@ export const AnimalResolver = yupResolver(animalValidator);
 
 const proprietarioValidator = Yup.object({
   nome: Yup.string().required("Obrigado informar o Nome"),
-  telefone: Yup.string().required("Obrigado informar o telefone"),
+  telefone: Yup.string()
+    .required("Obrigado informar o telefone")
+    .min(10, "O telefone deve ter no mínimo 10 caracteres")
+    .max(11, "O telefone deve ter no máximo 11 caracteres"),
   telefone1: Yup.string(),
   telefone2: Yup.string(),
-  cpf: Yup.string().required("Obrigado informar o Cpf"),
+  cpf: Yup.string()
+    .required("Obrigado informar o Cpf")
+    .min(11, "O CPF deve ter no mínimo 11 caracteres")
+    .max(14, "O CNPJ deve ter no mínimo 14 caracteres"),
   nascimento: Yup.string(),
   nomeMae: Yup.string().required("Obrigado informar o Nome da Mãe"),
   sexo: Yup.string().required("Obrigado informar o Sexo"),
@@ -36,20 +42,20 @@ const proprietarioValidator = Yup.object({
 export const ProprietarioResolver = yupResolver(proprietarioValidator);
 
 const veterinarioValidator = Yup.object({
-  username: Yup.string().required("Obrigado informar o Sexo"),
+  username: Yup.string().required("Obrigado informar o Nome de Usuario"),
   password: Yup.string().required("Obrigado informar a Senha"),
   role: Yup.string().required("Obrigado informar a Permissão"),
   nome: Yup.string().required("Obrigado informar o Nome"),
   telefone: Yup.string().required("Obrigado informar o telefone"),
   crmv: Yup.string().required("Obrigado informar o CRMV"),
-  email: Yup.string().required("Obrigado informar o E-mail"),
+  email: Yup.string(),
 });
 
 export const VeterinarioResolver = yupResolver(veterinarioValidator);
 
 const prodServValidator = Yup.object({
   nome: Yup.string().required("Obrigado informar o Nome"),
-  descricao: Yup.string().required("Obrigado informar a Descrição"),
+  descricao: Yup.string(),
   valor: Yup.string().required("Obrigado informar o Preço"),
 });
 

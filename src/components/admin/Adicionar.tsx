@@ -31,7 +31,7 @@ const Adicionar: React.FC = () => {
     const interval = setInterval(() => {
       fetchAtendimentos();
       fetchAtendimentosConcluidos();
-    }, 1 * 60 * 1000);
+    }, 1 * 5 * 1000);
     return () => {
       clearInterval(interval);
     };
@@ -149,7 +149,7 @@ const Adicionar: React.FC = () => {
             Criar atendimento
           </button>
         </header>
-        <div className="vet-container flex-col h-full justify-start p-2 overflow-auto">
+        <div className="vet-container flex-col h-full justify-start p-2 py-1 overflow-auto">
           {atendimentos.map((atendimento, index) => (
             <div key={index} className="item-list dark:bg-gray-950">
               <p className="flex w-1/2">
@@ -170,7 +170,7 @@ const Adicionar: React.FC = () => {
         <div className="flex justify-center w-full border-t border-black border-b mt-2">
           <h2>Atendimentos Concluidos</h2>
         </div>
-        <div className="vet-container flex-col h-full justify-start overflow-auto p-2">
+        <div className="vet-container flex-col h-full justify-start overflow-auto py-1 p-2">
           {atendimentosConcluidos.map((atendimento, index) => (
             <div
               key={index}
