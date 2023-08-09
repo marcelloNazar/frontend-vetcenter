@@ -1,6 +1,6 @@
 import React from "react";
 import { Owner } from "@/types/types";
-import { Input } from "../../partials/Input";
+import Input from "@/components/partials/Input";
 import { usePropForm } from "./usePropForm";
 
 interface FormularioProprietarioProps {

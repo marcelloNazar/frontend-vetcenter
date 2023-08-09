@@ -5,7 +5,7 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   error?: string;
 };
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ type = "text", name = "", error = "", ...props }, ref) => {
     return (
       <div className="flex flex-col w-full px-1">
@@ -21,3 +21,5 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
+
+export default Input;

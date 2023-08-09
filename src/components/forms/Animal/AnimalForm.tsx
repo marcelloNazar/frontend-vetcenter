@@ -1,6 +1,6 @@
 import React from "react";
 import { Animal as AnimalType } from "@/types/types";
-import { Input } from "../../partials/Input";
+import Input from "@/components/partials/Input";
 import { useAnimalForm } from "./useAnimalForm";
 
 type FormularioAnimalProps = {
