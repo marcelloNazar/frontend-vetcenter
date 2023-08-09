@@ -3,7 +3,7 @@ import { useAtendimento } from "@/contexts/AtendimentoContext";
 import ReactModal from "react-modal";
 import { Animal as AnimalType } from "@/types/types";
 import { customStyles } from "@/styles/styles";
-import FormularioAnimal from "../forms/AnimalForm";
+import FormularioAnimal from "../forms/Animal/AnimalForm";
 import HeaderModal from "../partials/HeaderModal";
 import http from "@/utils/http";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
@@ -100,7 +100,7 @@ const AnimalUser: React.FC = () => {
     setNewAnimal(animal);
   };
 
-  function letrasMaiusculas(str: string) {
+  function PrimeirasLetrasMaiusculas(str: string) {
     return str
       .split(" ")
       .map((palavra) => palavra.charAt(0).toUpperCase() + palavra.slice(1))
@@ -165,10 +165,10 @@ const AnimalUser: React.FC = () => {
           <div className="grid grid-cols-2 mr-28">
             <div className="data-container">
               <div>Especie:</div>
-              {letrasMaiusculas(animal.especie)}
+              {PrimeirasLetrasMaiusculas(animal.especie)}
             </div>
             <div className="data-container">
-              <div>Raça:</div> {letrasMaiusculas(animal.raca)}
+              <div>Raça:</div> {PrimeirasLetrasMaiusculas(animal.raca)}
             </div>
             <div className="data-container">
               <div>Sexo:</div>{" "}
@@ -186,11 +186,11 @@ const AnimalUser: React.FC = () => {
               <div>Idade:</div> {animal.idade}
             </div>
             <div className="data-container">
-              <div>Cor</div> {letrasMaiusculas(animal.cor)}
+              <div>Cor</div> {PrimeirasLetrasMaiusculas(animal.cor)}
             </div>
             <div className="data-container">
               <div>Temperamento</div>
-              {letrasMaiusculas(animal.temperamento.toLowerCase())}
+              {PrimeirasLetrasMaiusculas(animal.temperamento.toLowerCase())}
             </div>
             <div className="data-container">
               <div>Castrado:</div> {animal.castrado ? "Sim" : "Não"}

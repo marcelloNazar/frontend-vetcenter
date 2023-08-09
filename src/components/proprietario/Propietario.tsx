@@ -1,16 +1,16 @@
 import { useAtendimento } from "@/contexts/AtendimentoContext";
 import { useState, useEffect } from "react";
 import ReactModal from "react-modal";
-import FormularioProprietario from "../forms/ProprietarioForm";
+import FormularioProprietario from "../forms/Proprietario/ProprietarioForm";
 import { Owner } from "@/types/types";
 import { customStyles } from "@/styles/styles";
 import HeaderModal from "../partials/HeaderModal";
 import http from "@/utils/http";
+import { formatNumber } from "@/functions/format";
 
 //Componente do proprietario para a screen do veterinario
 const PropUser: React.FC = () => {
   const [owners, setOwners] = useState<Owner[]>([]);
-  const [newOwner, setNewOwner] = useState<Partial<Owner>>({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [addModalIsOpen, setAddModalIsOpen] = useState(false);
 
@@ -21,8 +21,6 @@ const PropUser: React.FC = () => {
     useAtendimento();
 
   const [updateOwner, setUpdateOwner] = useState<Partial<Owner>>({});
-
-  useEffect(() => {}, []);
 
   const fetchProprietario = () => {
     http
@@ -91,38 +89,6 @@ const PropUser: React.FC = () => {
     setUpdateModalIsOpen(false);
   };
 
-  const formatTelefone = (telefone: string) => {
-    if (telefone.length === 10) {
-      return `(${telefone.slice(0, 2)}) ${telefone.slice(
-        2,
-        6
-      )}-${telefone.slice(6)}`;
-    } else if (telefone.length === 11) {
-      return `(${telefone.slice(0, 2)}) ${telefone.slice(
-        2,
-        7
-      )}-${telefone.slice(7)}`;
-    } else {
-      return telefone;
-    }
-  };
-
-  const formatCPFCNPJ = (cpfcnpj: string) => {
-    if (cpfcnpj.length === 11) {
-      return `${cpfcnpj.slice(0, 3)}.${cpfcnpj.slice(3, 6)}.${cpfcnpj.slice(
-        6,
-        9
-      )}-${cpfcnpj.slice(9)}`;
-    } else if (cpfcnpj.length === 14) {
-      return `${cpfcnpj.slice(0, 2)}.${cpfcnpj.slice(2, 5)}.${cpfcnpj.slice(
-        5,
-        8
-      )}/${cpfcnpj.slice(8, 12)}-${cpfcnpj.slice(12)}`;
-    } else {
-      return cpfcnpj;
-    }
-  };
-
   function formatarData(data: string) {
     const partesData = data.split("-");
     const ano = partesData[0];
@@ -159,11 +125,11 @@ const PropUser: React.FC = () => {
           <div className="grid grid-cols-2 mr-28">
             <div className="data-container">
               <div>Telefone:</div>
-              <div className="">{formatTelefone(proprietario.telefone)}</div>
+              <div className="">{proprietario.telefone}</div>
             </div>
             <div className="data-container">
               <div>CPF:</div>
-              <div>{formatCPFCNPJ(proprietario.cpf)}</div>
+              <div>{proprietario.cpf}</div>
             </div>
             <div className="data-container">
               <div>Nascimento:</div>
@@ -187,7 +153,7 @@ const PropUser: React.FC = () => {
             </div>
             <div className="data-container">
               <div>Estado:</div>
-              <div>{letrasMaiusculas(proprietario.endereco.uf) }</div>
+              <div>{letrasMaiusculas(proprietario.endereco.uf)}</div>
             </div>
             <div className="data-container">
               <div>Divida:</div>

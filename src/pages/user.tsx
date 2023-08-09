@@ -3,8 +3,8 @@ import { GetServerSidePropsContext } from "next";
 import Header from "../components/partials/Header";
 import Head from "next/head";
 import Atendimento from "@/components/user/Atendimento";
-import PropUser from "@/components/user/PropUser";
-import AnimalUser from "@/components/user/AnimalUser";
+import PropUser from "@/components/proprietario/Propietario";
+import AnimalUser from "@/components/animal/Animal";
 import Anamnsese from "@/components/user/Anamnese";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {

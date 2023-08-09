@@ -15,21 +15,7 @@ const animalValidator = Yup.object({
 
 export const AnimalResolver = yupResolver(animalValidator);
 
-const proprietarioValidator = Yup.object({
-  nome: Yup.string().required("Obrigado informar o Nome"),
-  telefone: Yup.string()
-    .required("Obrigado informar o telefone")
-    .min(10, "O telefone deve ter no mínimo 10 caracteres")
-    .max(11, "O telefone deve ter no máximo 11 caracteres"),
-  telefone1: Yup.string(),
-  telefone2: Yup.string(),
-  cpf: Yup.string()
-    .required("Obrigado informar o Cpf")
-    .min(11, "O CPF deve ter no mínimo 11 caracteres")
-    .max(14, "O CNPJ deve ter no mínimo 14 caracteres"),
-  nascimento: Yup.string(),
-  nomeMae: Yup.string().required("Obrigado informar o Nome da Mãe"),
-  sexo: Yup.string().required("Obrigado informar o Sexo"),
+const enderecoSchema = Yup.object({
   rua: Yup.string().required("Obrigado informar a Rua"),
   bairro: Yup.string().required("Obrigado informar o Bairro"),
   cep: Yup.string().required("Obrigado informar o CEP"),
@@ -37,6 +23,24 @@ const proprietarioValidator = Yup.object({
   uf: Yup.string().required("Obrigado informar o Estado"),
   numero: Yup.string().required("Obrigado informar o Numero"),
   complemento: Yup.string(),
+});
+
+const proprietarioValidator = Yup.object({
+  nome: Yup.string().required("Obrigado informar o Nome"),
+  telefone: Yup.string()
+    .required("Obrigado informar o telefone")
+    .min(10, "O telefone deve ter no mínimo 10 caracteres")
+    .max(16, "O telefone deve ter no máximo 11 caracteres"),
+  telefone1: Yup.string(),
+  telefone2: Yup.string(),
+  cpf: Yup.string()
+    .required("Obrigado informar o Cpf")
+    .min(11, "O CPF deve ter no mínimo 11 caracteres")
+    .max(18, "O CNPJ deve ter no mínimo 14 caracteres"),
+  nascimento: Yup.string().required("Obrigado informar a Data de Nascimento"),
+  nomeMae: Yup.string().required("Obrigado informar o Nome da Mãe"),
+  sexo: Yup.string().required("Obrigado informar o Sexo"),
+  endereco: enderecoSchema,
 });
 
 export const ProprietarioResolver = yupResolver(proprietarioValidator);

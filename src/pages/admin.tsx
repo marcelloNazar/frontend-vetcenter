@@ -8,8 +8,8 @@ import Adicionar from "@/components/admin/Adicionar";
 import TodosAtendimentos from "@/components/admin/TodosAtendimentos";
 import AtendimentoPagosFalse from "@/components/admin/AtendimentosPagosFalse";
 
-import PropUser from "@/components/user/PropUser";
-import AnimalUser from "@/components/user/AnimalUser";
+import PropUser from "@/components/proprietario/Propietario";
+import AnimalUser from "@/components/animal/Animal";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { token } = parseCookies(context);
