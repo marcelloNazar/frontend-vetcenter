@@ -53,9 +53,8 @@ const PropUser: React.FC = () => {
   };
 
   const handleUpdateSubmit = (data: Partial<Owner>) => {
-    console.log(data);
     http
-      .put(`proprietario/${updateOwner?.id}`, data)
+      .put(`proprietario/${proprietario?.id}`, data)
       .then((r) => {
         if (r.status === 200) {
           setUpdateModalIsOpen(false);
@@ -245,7 +244,7 @@ const PropUser: React.FC = () => {
             closeModal={closeUpdateModal}
           />
           <FormularioProprietario
-            data={updateOwner}
+            data={proprietario || {}}
             handleSubmit2={handleUpdateSubmit}
           />
         </div>

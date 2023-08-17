@@ -22,7 +22,7 @@
     @apply bg-gray-100 border-l-8 w-full h-full my-1 hover:shadow-md text-xl dark:bg-gray-900 dark:text-white transform transition hover:scale-105 duration-100;
   }
   .vet-input {
-    @apply m-1 px-4 py-1 border w-full rounded bg-white text-black outline-none focus:border-2 focus:border-gray-900;
+    @apply mr-1 mb-1 px-4 py-1 border w-full rounded bg-white text-black outline-none focus:border-2 focus:border-gray-900;
   }
   .item-list {
     @apply flex justify-between rounded bg-white border border-gray-500 cursor-pointer shadow-gray-500 px-2 mb-1 w-full  hover:shadow-md;

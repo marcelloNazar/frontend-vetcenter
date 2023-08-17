@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useAtendimento } from "@/contexts/AtendimentoContext";
 import Modal from "react-modal";
 import { customStyles } from "@/styles/styles";
-import AnamneseForm from "../forms/AnamneseForm";
+import AnamneseForm from "../forms/Anamnsese/AnamneseForm";
 import HeaderModal from "../partials/HeaderModal";
 import http from "@/utils/http";
-import { AnamneseRecord } from "@/types/types";
+import { Anamnese, AnamneseRecord } from "@/types/types";
 
 //Componente de anamnese para atendimento para a screen do veterinario
 const Anamnsese: React.FC = () => {
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+  const [updateModalIsOpen, setUpdateIsOpen] = useState<boolean>(false);
   const { atendimento, anamnese, setAnamnese } = useAtendimento();
 
   useEffect(() => {
@@ -26,13 +27,40 @@ const Anamnsese: React.FC = () => {
       .catch((e) => console.error("Error:", e));
   };
 
-  const closeModal = () => {
-    setIsOpen(false);
+  const handleAddSubmit = (data: Partial<Anamnese>) => {
+    if (!atendimento) {
+      alert("Por favor, selecione um atendimento.");
+    } else {
+      const anamneseRecord = {
+        atendimentoId: atendimento.id,
+        ...data,
+      };
+      http
+        .post("anamnese", anamneseRecord)
+        .then((r) => {
+          if (r.status === 201) {
+            setAnamnese(r.data);
+            closeModal();
+          } else {
+            alert("Erro ao adicionar o Anamnese");
+          }
+        })
+        .catch((error) => alert(error));
+    }
   };
 
-  const afterSubmit = () => {
-    closeModal(); // Fecha o modal
-    fetchAnamnese(); // Busca a anamnese atualizada
+  const handleUpdateSubmit = (data: Partial<Anamnese>) => {
+    http
+      .put(`anamnese/${anamnese?.id}`, data)
+      .then((r) => {
+        if (r.status === 200) {
+          setAnamnese(r.data);
+          closeUpdateModal();
+        } else {
+          alert("Erro ao atualizar o Anamnese");
+        }
+      })
+      .catch((error) => alert(error));
   };
 
   const openModal = () => {
@@ -41,6 +69,22 @@ const Anamnsese: React.FC = () => {
     } else {
       setIsOpen(true);
     }
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const openUpdateModal = () => {
+    if (!atendimento) {
+      alert("Por favor, selecione um atendimento.");
+    } else {
+      setUpdateIsOpen(true);
+    }
+  };
+
+  const closeUpdateModal = () => {
+    setUpdateIsOpen(false);
   };
 
   return (
@@ -55,6 +99,9 @@ const Anamnsese: React.FC = () => {
         <div className="body-container">
           <div className="header-container">
             <h2 className="text-xl uppercase">Anamnese</h2>
+            <button className="vet-botao mr-2" onClick={openUpdateModal}>
+              Editar
+            </button>
           </div>
           <div className="grid grid-cols-2 mr-28">
             <div className="data-container">
@@ -174,10 +221,21 @@ const Anamnsese: React.FC = () => {
         <div className="w-full h-full overflow-hidden">
           <HeaderModal selected="Anamnese" closeModal={closeModal} />
 
+          {atendimento && <AnamneseForm handleSubmit2={handleAddSubmit} />}
+        </div>
+      </Modal>
+      <Modal
+        isOpen={updateModalIsOpen}
+        onRequestClose={closeUpdateModal}
+        style={customStyles}
+      >
+        <div className="w-full h-full overflow-hidden">
+          <HeaderModal selected="Anamnese" closeModal={closeUpdateModal} />
+
           {atendimento && (
             <AnamneseForm
-              selectedAtendimento={atendimento}
-              onClose={afterSubmit}
+              data={anamnese || {}}
+              handleSubmit2={handleUpdateSubmit}
             />
           )}
         </div>

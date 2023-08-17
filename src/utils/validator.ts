@@ -64,3 +64,33 @@ const prodServValidator = Yup.object({
 });
 
 export const ProdServResolver = yupResolver(prodServValidator);
+
+const anamnseseValidator = Yup.object({
+  anamnese: Yup.string().required("Obrigado informar a Anamnese"),
+  estado: Yup.string().required("Obrigado informar o Estado Geral"),
+  mucosas: Yup.string().required("Campo Obrigatorio"),
+  linfonodos: Yup.string().required("Campo Obrigatorio"),
+  tpc: Yup.string().required("Campo Obrigatorio"),
+  turgorCutaneo: Yup.string().required("Campo Obrigatorio"),
+  desidratacao: Yup.string().required("Campo Obrigatorio"),
+  ectoparasitas: Yup.boolean().required("Campo Obrigatorio"),
+  mioclonias: Yup.boolean(),
+  prurido: Yup.string().required("Campo Obrigatorio"),
+  vomito: Yup.boolean(),
+  diarreia: Yup.boolean(),
+  inapatencia: Yup.string().required("Campo Obrigatorio"),
+  secrecoesPatologicas: Yup.string().required("Campo Obrigatorio"),
+  calculoDentario: Yup.string().required("Campo Obrigatorio"),
+  auscultacaoPulmonar: Yup.string().required("Campo Obrigatorio"),
+  auscultacaoCardiaca: Yup.string().required("Campo Obrigatorio"),
+  reflexoToce: Yup.string().required("Campo Obrigatorio"),
+  emagrecimento: Yup.string().required("Campo Obrigatorio"),
+  alteracaoComportamental: Yup.string().required("Campo Obrigatorio"),
+  cansaco: Yup.boolean(),
+  tosse: Yup.boolean(),
+  pulso: Yup.string().required("Obrigado informar o Nome de Usuario"),
+  fc: Yup.string().required("Obrigado informar o Nome de Usuario"),
+  fr: Yup.string().required("Obrigado informar o Nome de Usuario"),
+});
+
+export const AnamnseseResolver = yupResolver(anamnseseValidator);

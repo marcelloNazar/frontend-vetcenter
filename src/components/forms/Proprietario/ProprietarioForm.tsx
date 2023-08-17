@@ -40,8 +40,8 @@ const FormularioProprietario: React.FC<FormularioProprietarioProps> = ({
           error={errors?.cpf?.message}
         />
 
-        <div className="w-full px-1">
-          <select className="vet-input " {...register("sexo")}>
+        <div className="w-full h-full px-1">
+          <select className="vet-input" {...register("sexo")}>
             <option value="">Sexo</option>
             <option value="MASCULINO">MASCULINO</option>
             <option value="FEMININO">FEMININO</option>

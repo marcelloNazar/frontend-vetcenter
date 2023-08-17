@@ -19,7 +19,7 @@ const FormularioAnimal: React.FC<FormularioAnimalProps> = ({
   );
 
   return (
-    <div className="modal-container">
+    <div className="modal-container justify-between">
       <form onSubmit={handleSubmit(submitForm)} className="body-modal">
         <Input
           type="text"
@@ -29,19 +29,19 @@ const FormularioAnimal: React.FC<FormularioAnimalProps> = ({
         />
         <div className="w-full px-1">
           <select className="vet-input" {...register("especie")}>
-            <option value="">Especie</option>
-            <option value="CACHORRO">Cachorro</option>
-            <option value="GATO">Gato</option>
+            <option value="">ESPECIE</option>
+            <option value="CACHORRO">CACHORRO</option>
+            <option value="GATO">GATO</option>
           </select>
           {errors?.especie?.message && (
             <p className="text-xs text-red-600">{errors?.especie?.message}</p>
           )}
         </div>
-        <div className="w-full p-1">
+        <div className="w-full px-1">
           <select className="vet-input " {...register("sexo")}>
-            <option value="">Sexo</option>
-            <option value="MASCULINO">Macho</option>
-            <option value="FEMININO">Femea</option>
+            <option value="">SEXO</option>
+            <option value="MASCULINO">MACHO</option>
+            <option value="FEMININO">FÊMEA</option>
           </select>
           {errors?.sexo?.message && (
             <p className="text-xs text-red-600">{errors?.sexo?.message}</p>
@@ -49,10 +49,10 @@ const FormularioAnimal: React.FC<FormularioAnimalProps> = ({
         </div>
         <div className="w-full p-1">
           <select className="vet-input " {...register("temperamento")}>
-            <option value="">Temperamento</option>
-            <option value="DOCIL">Docil</option>
-            <option value="AGRESSIVO">Agressivo</option>
-            <option value="AGITADO">Agitado</option>
+            <option value="">TEMPERAMENTO</option>
+            <option value="DOCIL">DOCIL</option>
+            <option value="AGRESSIVO">AGRESSIVO</option>
+            <option value="AGITADO">AGITADO</option>
           </select>
           {errors?.temperamento?.message && (
             <p className="text-xs text-red-600">
@@ -89,7 +89,7 @@ const FormularioAnimal: React.FC<FormularioAnimalProps> = ({
           </label>
         </div>
         <Input
-          type="text"
+          type="date"
           {...register("nascimento")}
           error={errors?.nascimento?.message}
         />

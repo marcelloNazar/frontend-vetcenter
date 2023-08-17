@@ -12,6 +12,7 @@ const AtendimentoComponent: React.FC = () => {
     Atendimento[]
   >([]);
   const [showAddProducts, setShowAddProducts] = useState(false);
+  const [produtos, setProdutos]= useState()
 
   const {
     atendimento,
@@ -155,7 +156,7 @@ const AtendimentoComponent: React.FC = () => {
           </div>
         </>
       ) : (
-        <ProdServ />
+        <ProdServ data={atendimento}/>
       )}
     </div>
   );

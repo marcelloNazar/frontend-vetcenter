@@ -4,11 +4,15 @@ import http from "@/utils/http";
 import ReactModal from "react-modal";
 import HeaderModal from "../partials/HeaderModal";
 import { customStyles } from "@/styles/styles";
-import { Produto, Servico } from "@/types/types";
+import { Atendimento, Produto, Servico } from "@/types/types";
 import { TrashIcon } from "@heroicons/react/24/outline";
 
+interface ProdServProps {
+  data?: Partial<Atendimento>;
+}
+
 //Componente para o veterinario adicionar produtos e serviços ao atendimento
-const ProdServ: React.FC = () => {
+const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
   const [prodModalIsOpen, setProdModalIsOpen] = useState(false);
   const [servModalIsOpen, setServModalIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,7 +37,13 @@ const ProdServ: React.FC = () => {
       .catch((e) => console.error("Error:", e));
   };
 
+  const serProdutosAnteriores = ()=>{
+    
+  }
+
   useEffect(() => {
+    setSelectedProdutos(atendimento?.produtos || [])
+    setSelectedServicos(atendimento?.servicos || [])
     fetchProdutos();
     fetchServicos();
   }, []);

@@ -1,89 +1,96 @@
 export function formatCPF(value: string) {
-    if (!value) return "";
+  if (!value) return "";
 
-    const cleanedValue = value.replace(/\D/g, ""); // Remove caracteres não numéricos
+  const cleanedValue = value.replace(/\D/g, ""); // Remove caracteres não numéricos
 
-    if (cleanedValue.length <= 11) {
-      // Formatação para CPF
-      if (cleanedValue.length === 11) {
-        const cpfDigits = cleanedValue.slice(0, 11);
-        return cpfDigits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-      }
-    } else {
-      // Formatação para CNPJ
-      const cnpjDigits = cleanedValue.slice(0, 14);
-      return cnpjDigits.replace(
-        /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
-        "$1.$2.$3/$4-$5"
-      );
+  if (cleanedValue.length <= 11) {
+    // Formatação para CPF
+    if (cleanedValue.length === 11) {
+      const cpfDigits = cleanedValue.slice(0, 11);
+      return cpfDigits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
     }
-
-    return cleanedValue; // Retorna o valor não formatado se não for válido
+  } else {
+    // Formatação para CNPJ
+    const cnpjDigits = cleanedValue.slice(0, 14);
+    return cnpjDigits.replace(
+      /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
+      "$1.$2.$3/$4-$5"
+    );
   }
 
-  export function formatNumber(phoneNumber: string) {
-    if (!phoneNumber) return "";
+  return cleanedValue; // Retorna o valor não formatado se não for válido
+}
 
-    let cleanedNumber = phoneNumber.replace(/\D/g, ""); // Remove caracteres não numéricos
+export function formatNumber(phoneNumber: string) {
+  if (!phoneNumber) return "";
 
-    if (cleanedNumber.length > 11) {
-      cleanedNumber = cleanedNumber.slice(0, 11); // Limita a 11 dígitos
-    }
+  let cleanedNumber = phoneNumber.replace(/\D/g, ""); // Remove caracteres não numéricos
 
-    if (cleanedNumber.length <= 10) {
-      // Formatação para telefone fixo
-      return cleanedNumber.replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
-    } else {
-      // Formatação para telefone móvel
-      return cleanedNumber.replace(
-        /(\d{2})(\d{1})(\d{4})(\d{4})/,
-        "($1) $2 $3-$4"
-      );
-    }
+  if (cleanedNumber.length > 11) {
+    cleanedNumber = cleanedNumber.slice(0, 11); // Limita a 11 dígitos
   }
 
-  export function formatCEP(cep: string) {
-    if (!cep) return "";
+  if (cleanedNumber.length <= 10) {
+    // Formatação para telefone fixo
+    return cleanedNumber.replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
+  } else {
+    // Formatação para telefone móvel
+    return cleanedNumber.replace(
+      /(\d{2})(\d{1})(\d{4})(\d{4})/,
+      "($1) $2 $3-$4"
+    );
+  }
+}
 
-    let cleanedCEP = cep.replace(/\D/g, ""); // Remove caracteres não numéricos
+export function formatCEP(cep: string) {
+  if (!cep) return "";
 
-    if (cleanedCEP.length > 8) {
-      cleanedCEP = cleanedCEP.slice(0, 8); // Limita a 8 dígitos
-    }
+  let cleanedCEP = cep.replace(/\D/g, ""); // Remove caracteres não numéricos
 
-    return cleanedCEP.replace(/(\d{5})(\d{3})/, "$1-$2");
+  if (cleanedCEP.length > 8) {
+    cleanedCEP = cleanedCEP.slice(0, 8); // Limita a 8 dígitos
   }
 
-  export function formatWeight(peso: string) {
-    if (!peso) return "";
-  
-    const cleanedPeso = peso.replace(/[^\d.]/g, ""); // Remove caracteres não numéricos exceto ponto
-  
-    const parts = cleanedPeso.split('.');
-    const integerPart = parts[0];
-    const decimalPart = parts[1] || '';
-  
-    const formattedDecimalPart = decimalPart.padEnd(3, '0'); // Adiciona zeros à direita se necessário
-  
-    return `${integerPart}.${formattedDecimalPart} Kg`;
-  }
+  return cleanedCEP.replace(/(\d{5})(\d{3})/, "$1-$2");
+}
 
-  export function formatarData(data: string) {
-    const partesData = data.split("-");
-    const ano = partesData[0];
-    const mes = partesData[1];
-    const dia = partesData[2];
+export function formatWeight(peso: string) {
+  if (!peso) return "";
 
-    return `${dia}/${mes}/${ano}`;
-  }
+  const cleanedPeso = peso.replace(/[^\d.]/g, ""); // Remove caracteres não numéricos exceto ponto
 
-  export function PrimeirasLetrasMaiusculas(str: string) {
-    return str
-      .split(" ")
-      .map((palavra) => palavra.charAt(0).toUpperCase() + palavra.slice(1))
-      .join(" ");
-  }
+  const parts = cleanedPeso.split(".");
+  const integerPart = parts[0];
+  const decimalPart = parts[1] || "";
 
-  export function letrasMaiusculas(str: string) {
-    return str.toUpperCase()
-  }
+  const formattedDecimalPart = decimalPart.padEnd(3, "0"); // Adiciona zeros à direita se necessário
+
+  return `${integerPart}.${formattedDecimalPart} Kg`;
+}
+
+export function formatarData(data: string) {
+  const partesData = data.split("-");
+  const ano = partesData[0];
+  const mes = partesData[1];
+  const dia = partesData[2];
+
+  return `${dia}/${mes}/${ano}`;
+}
+
+export function PrimeirasLetrasMaiusculas(str: string) {
+  return str
+    .split(" ")
+    .map((palavra) => palavra.charAt(0).toUpperCase() + palavra.slice(1))
+    .join(" ");
+}
+
+export function letrasMaiusculas(str: string) {
+  return str.toUpperCase();
+}
+
+export function numberToString(number?: number) {
+  const string = number?.toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+  });
+  return string;
+}
