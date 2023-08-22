@@ -114,8 +114,8 @@ const AtendimentosMes: React.FC = () => {
   };
 
   return (
-    <div className="vet-container overflow-hidden">
-      <div className="flex justify-between w-full items-center pl-2 border-black border-b">
+    <div className="vet-container ">
+      <div className="flex  justify-between w-full items-center pl-2 border-black border-b">
         <h2 className="w-full">Todos</h2>
         <label className="m-1 px-4 py-1 border rounded bg-white text-black outline-none">
           <select value={mes} onChange={handleMonthChange}>
@@ -127,7 +127,7 @@ const AtendimentosMes: React.FC = () => {
           </select>
         </label>
 
-        <label className="m-1 px-4 py-1 border rounded bg-white text-black outline-none">
+        <label className="m-1 px-4 py-1 border rounded bg-white text-black outline-none ">
           <select value={ano} onChange={handleYearChange}>
             {years.map((year) => (
               <option key={year.value} value={year.value}>
@@ -137,7 +137,7 @@ const AtendimentosMes: React.FC = () => {
           </select>
         </label>
       </div>
-      <div className="vet-container flex-col h-full  justify-start overflow-auto p-2">
+      <div className="vet-container flex-col h-full justify-start p-2 overflow-auto">
         {atendimentos.map((atendimento, index) => (
           <div
             key={index}
@@ -159,7 +159,7 @@ const AtendimentosMes: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="flex w-full p-2 border-t  border-black justify-between">
+      <div className="flex w-full p-2 border-t  border-black justify-between ">
         <p>Quantidade: {atendimentos.length}</p>
         <p>
           Total: R${" "}

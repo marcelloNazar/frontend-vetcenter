@@ -37,13 +37,11 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
       .catch((e) => console.error("Error:", e));
   };
 
-  const serProdutosAnteriores = ()=>{
-    
-  }
+  const serProdutosAnteriores = () => {};
 
   useEffect(() => {
-    setSelectedProdutos(atendimento?.produtos || [])
-    setSelectedServicos(atendimento?.servicos || [])
+    setSelectedProdutos(atendimento?.produtos || []);
+    setSelectedServicos(atendimento?.servicos || []);
     fetchProdutos();
     fetchServicos();
   }, []);
@@ -122,7 +120,7 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
         } else {
         }
       })
-      .catch((e) => alert("Erro ao atualizar o atendimento"));
+      .catch((e) => alert("Erro ao finalizar o atendimento"));
   };
 
   const total =
@@ -218,14 +216,14 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
 
   return (
     <div className="flex flex-col justify-center items-center h-full w-full">
-      <div className="flex justify-between w-full p-2 ">
+      <div className="flex justify-between w-full p-2 pb-0 ">
         <h1>Atendimento</h1>
         <button className="vet-botao" onClick={handleBackClick}>
           Voltar
         </button>
       </div>
       <div className="vet-container">
-        <div className="flex p-2 items-center justify-between w-full">
+        <div className="flex p-2 pb-0 items-center justify-between w-full">
           <button className="vet-botao" onClick={openProdModal}>
             Adicionar Produto
           </button>

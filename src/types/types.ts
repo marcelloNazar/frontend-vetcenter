@@ -162,3 +162,10 @@ export interface AnamneseRecord {
   retorno: string;
   data: string;
 }
+
+export interface Pagamento {
+  id: number;
+  valor: number;
+  data: string;
+  metodo: string;
+}
