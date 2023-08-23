@@ -54,9 +54,12 @@ export interface Atendimento {
   proprietario: Owner;
   pago: boolean;
   data: string;
+  dataFechamento: string;
   total: number;
+  totalPago: number;
   produtos: Produto[];
   servicos: Servico[];
+  pagamentos: Pagamento[];
 }
 
 export interface Produto {

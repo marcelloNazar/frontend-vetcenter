@@ -112,7 +112,7 @@ const AnimalUser: React.FC = () => {
       {!animal && proprietario && (
         <div className="body-container">
           <div className="header-container">
-            <h2 className="text-xl ">Animais</h2>
+            <h2 className="text-xl ">ANIMAIS</h2>
             <button className="vet-botao" onClick={openModal}>
               Adicionar Animal
             </button>
@@ -127,17 +127,11 @@ const AnimalUser: React.FC = () => {
                   className="item-list dark:bg-gray-950"
                   onClick={() => handleClick(animal)}
                 >
-                  <div className="flex justify-between w-full mr-8">
-                    <h2 className="">{animal.nome}</h2>
-                    <p className="">{animal.especie}</p>
-                  </div>
-                  <div className="flex justify-between w-16 ">
-                    <button>
-                      <PencilSquareIcon className="h-5 " />
-                    </button>
-                    <button>
-                      <TrashIcon className="h-5 " />
-                    </button>
+                  <div className="flex justify-between w-full">
+                    <div className="w-1/4">{animal.nome}</div>
+                    <div className="w-1/4">{animal.especie}</div>
+                    <div className="w-1/4">{animal.raca}</div>
+                    <div className="w-1/4">{animal.cor}</div>
                   </div>
                 </div>
               ))
@@ -178,18 +172,17 @@ const AnimalUser: React.FC = () => {
                 <div>Femêa</div>
               )}
             </div>
-            <div className="data-container">
-              <div>Peso:</div>{" "}
-              {parseFloat(animal.peso.replace(",", ".")).toFixed(3)} Kg
+            <div className="flex justify-between border-l-2 border-gray-900 dark:border-gray-100 px-4 w-full">
+              <div>Peso:</div> {animal.peso}
             </div>
             <div className="data-container">
               <div>Idade:</div> {animal.idade}
             </div>
             <div className="data-container">
-              <div>Cor</div> {PrimeirasLetrasMaiusculas(animal.cor)}
+              <div>Cor:</div> {PrimeirasLetrasMaiusculas(animal.cor)}
             </div>
             <div className="data-container">
-              <div>Temperamento</div>
+              <div>Temperamento:</div>
               {PrimeirasLetrasMaiusculas(animal.temperamento.toLowerCase())}
             </div>
             <div className="data-container">

@@ -18,7 +18,7 @@ const VeterinarioForm: React.FC<FormularioProprietarioProps> = ({
   );
 
   return (
-    <div className="modal-container">
+    <div className="modal-container  justify-between">
       <form onSubmit={handleSubmit(submitForm)} className="body-modal">
         <Input
           type="text"

@@ -31,7 +31,10 @@ const proprietarioValidator = Yup.object({
     .required("Obrigado informar o telefone")
     .min(10, "O telefone deve ter no mínimo 10 caracteres")
     .max(16, "O telefone deve ter no máximo 11 caracteres"),
-  telefone1: Yup.string(),
+  telefone1: Yup.string()
+    .required("Obrigado informar o telefone")
+    .min(10, "O telefone deve ter no mínimo 10 caracteres")
+    .max(16, "O telefone deve ter no máximo 11 caracteres"),
   telefone2: Yup.string(),
   cpf: Yup.string()
     .required("Obrigado informar o Cpf")

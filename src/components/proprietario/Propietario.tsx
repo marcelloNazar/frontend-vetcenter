@@ -155,13 +155,8 @@ const PropUser: React.FC = () => {
               <div>{letrasMaiusculas(proprietario.endereco.uf)}</div>
             </div>
             <div className="data-container">
-              <div>Divida:</div>
-              <div>
-                R$
-                {proprietario.divida?.toLocaleString("pt-BR", {
-                  minimumFractionDigits: 2,
-                })}
-              </div>
+              <div>telefone 2:</div>
+              <div>{proprietario.telefone1}</div>
             </div>
           </div>
         </div>
@@ -201,7 +196,12 @@ const PropUser: React.FC = () => {
             placeholder="Pesquisar proprietario..."
             onChange={HandleSearch}
           />
-          <div className="overflow-y-auto h-full w-full mt-4 space-y-2">
+          <div className="overflow-y-auto h-full w-full mt-4">
+            <div className="item-list">
+              <h2 className="w-6/12 border-r border-gray-500  pl-1">NOME</h2>
+              <h2 className="w-3/12 border-r border-gray-500  pl-1">CPF</h2>
+              <h2 className="w-3/12 pl-1">TELEFONE</h2>
+            </div>
             {owners
               .filter((owner) =>
                 owner.nome?.toLowerCase().includes(pesquisa.toLowerCase())
@@ -212,8 +212,13 @@ const PropUser: React.FC = () => {
                   onClick={() => handleOwnerClick(owner)}
                   className="item-list"
                 >
-                  <h2>{owner.nome}</h2>
-                  <p></p>
+                  <h2 className="w-6/12 border-r border-gray-500  pl-1">
+                    {owner.nome}
+                  </h2>
+                  <h2 className="w-3/12 border-r border-gray-500  pl-1">
+                    {owner.cpf}
+                  </h2>
+                  <h2 className="w-3/12 pl-1">{owner.telefone}</h2>
                 </div>
               ))}
           </div>

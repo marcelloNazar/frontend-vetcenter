@@ -66,12 +66,12 @@ const ServicoComponent: React.FC = () => {
             onChange={handleSearch}
           />
           <div className="flex justify-between bg-white border border-gray-500  shadow-gray-500 px-2 mb-1 w-full mt-4 ">
-            <div className="flex w-4/12 border-r border-gray-500">Nome:</div>
-            <div className="flex w-6/12 border-r border-gray-500">
-              Descrição:
+            <div className="flex w-4/12 border-r border-gray-500">NOME:</div>
+            <div className="flex w-6/12 border-r pl-2 border-gray-500">
+              DESCRIÇÃO:
             </div>
-            <div className="flex w-2/12 border-r border-gray-500">Preço:</div>
-            <div className="flex justify-center pr-2 pl-3">editar</div>
+            <div className="flex w-2/12 border-r pl-2 border-gray-500">PREÇO:</div>
+            <div className="flex justify-center pr-1 pl-1.5">EDITAR</div>
           </div>
           <div className="overflow-scroll overflow-x-hidden h-full w-full">
             {servicos
@@ -83,10 +83,10 @@ const ServicoComponent: React.FC = () => {
                   <div className="flex w-4/12 border-r border-gray-500">
                     <div>{servico.nome}</div>
                   </div>
-                  <div className="flex w-6/12 border-r border-gray-500">
+                  <div className="flex w-6/12 border-r pl-2 border-gray-500">
                     <div>{servico.descricao}</div>
                   </div>
-                  <div className="flex w-2/12 border-r border-gray-500">
+                  <div className="flex w-2/12 border-r pl-2 border-gray-500">
                     <div>R$ {numberToString(servico.valor)}</div>
                   </div>
                   <div className="flex justify-between pl-1 gap-1">

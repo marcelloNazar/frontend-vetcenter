@@ -88,6 +88,7 @@ export const usePropForm = (
   }, []);
 
   const submitForm: SubmitHandler<Owner> = (values) => {
+    console.log(values);
     handleSubmit2(values);
   };
 

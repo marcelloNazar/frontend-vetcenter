@@ -4,7 +4,7 @@ import { Atendimento } from "@/types/types";
 import Modal from "react-modal";
 import HeaderModal from "../partials/HeaderModal";
 import { customStyles } from "@/styles/styles";
-import DetalhesAtendimento from "./partials/DetalhesAtendimento";
+import DetalhesAtendimento from "./partials/DetalhesAtendimento/DetalhesAtendimento";
 
 const TodosAtendimentos: React.FC = () => {
   const [atendimentos, setAtendimentos] = useState<Atendimento[]>([]);
@@ -68,7 +68,7 @@ const TodosAtendimentos: React.FC = () => {
   return (
     <div className="vet-container overflow-hidden">
       <div className="flex justify-center w-full  border-black border-b">
-        <h2>Atendimentos finalizados</h2>
+        <h2 className="uppercase">Atendimentos finalizados</h2>
       </div>
       <div className="vet-container flex-col h-full  justify-start overflow-hidden py-1 p-2">
         {atendimentos.map((atendimento, index) => (

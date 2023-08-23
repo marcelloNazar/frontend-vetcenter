@@ -67,42 +67,45 @@ const VeterinarioComponent: React.FC = () => {
             onChange={handleSearch}
           />
           <div className="flex justify-between bg-white border border-gray-500  shadow-gray-500 px-2 mb-1 w-full mt-4 ">
-            <div className="w-3/12 border-r border-gray-500">
-              Nome de usuario
+            <div className="w-3/12 border-r -ml-1 pr-1 border-gray-500">
+              NOME USUARIO
             </div>
             <div className="w-3/12 border-r flex justify-start border-gray-500">
-              Nome
+              NOME
             </div>
-            <div className="w-1/12 border-r border-gray-500">Tipo</div>
-            <p className="w-1/6 border-r border-gray-500">Telefone</p>
-            <p className="w-1/6 border-r border-gray-500">CRMV</p>
-            <div className="flex">
-              <div>Editar</div>
+            <div className="w-1/12 border-r border-gray-500">TIPO</div>
+            <div className="w-1/6 border-r border-gray-500">TELEFONE</div>
+            <div className="w-1/6 border-r border-gray-500">CRMV</div>
+            <div className="flex justify-center">
+              <div>EDITAR</div>
             </div>
           </div>
-          <div className="overflow-scroll overflow-x-hidden  h-full w-full">
+          <div className="overflow-scroll overflow-x-hidden h-full w-full">
             {veterinarios
               .filter((veterinario) =>
                 veterinario.nome.toLowerCase().includes(pesquisa.toLowerCase())
               )
               .map((veterinario) => (
                 <div key={veterinario.id} className="item-list">
-                  <h2 className="w-3/12 border-r border-gray-500">
-                    {veterinario.username}
-                  </h2>
-                  <h2 className="w-3/12 border-r border-gray-500">
-                    {veterinario.nome}
-                  </h2>
-                  <h2 className="w-1/12 border-r border-gray-500 uppercase">
-                    {veterinario.role === "USER" ? <p>Vet.</p> : <p>Adm.</p>}
-                  </h2>
-                  <p className="w-1/6 border-r border-gray-500">
-                    {veterinario.telefone}
-                  </p>
-                  <p className="w-1/6 border-r border-gray-500">
-                    {veterinario.crmv}
-                  </p>
-                  <div className="flex">
+                  <div className="flex w-3/12 border-r border-gray-500">
+                    <div>{veterinario.username}</div>
+                  </div>
+                  <div className="flex w-3/12 border-r border-gray-500">
+                    <div>{veterinario.nome}</div>
+                  </div>
+                  <div className="flex w-1/12 border-r border-gray-500">
+                    <div>
+                      {veterinario.role === "USER" ? <p>VET</p> : <p>ADM</p>}
+                    </div>
+                  </div>
+                  <div className="flex w-1/6 border-r border-gray-500">
+                    <div>{veterinario.telefone}</div>
+                  </div>
+                  <div className="flex w-1/6 border-r border-gray-500">
+                    <div>{veterinario.crmv}</div>
+                  </div>
+                  <div className="flex ">
+                    <div className="w-4"></div>
                     <button
                       onClick={() => {
                         setNewVeterinario(veterinario);

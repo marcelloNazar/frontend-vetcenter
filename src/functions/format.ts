@@ -55,17 +55,15 @@ export function formatCEP(cep: string) {
 }
 
 export function formatWeight(peso: string) {
-  if (!peso) return "";
+  const cleanedPeso = peso.replace(/[^\d]/g, ""); // Remove caracteres não numéricos
 
-  const cleanedPeso = peso.replace(/[^\d.]/g, ""); // Remove caracteres não numéricos exceto ponto
-
-  const parts = cleanedPeso.split(".");
-  const integerPart = parts[0];
-  const decimalPart = parts[1] || "";
-
-  const formattedDecimalPart = decimalPart.padEnd(3, "0"); // Adiciona zeros à direita se necessário
-
-  return `${integerPart}.${formattedDecimalPart} Kg`;
+  if (cleanedPeso.length <= 3) {
+    return cleanedPeso + " g";
+  } else {
+    const formattedWeight =
+      cleanedPeso.replace(/(\d)(?=(\d{3})+$)/g, "$1.") + " Kg";
+    return formattedWeight;
+  }
 }
 
 export function formatarData(data: string) {

@@ -4,7 +4,7 @@ import { Atendimento } from "@/types/types";
 import Modal from "react-modal";
 import HeaderModal from "../partials/HeaderModal";
 import { customStyles } from "@/styles/styles";
-import DetalhesAtendimento from "./partials/DetalhesAtendimento";
+import DetalhesAtendimento from "./partials/DetalhesAtendimento/DetalhesAtendimento";
 
 const AtendimentosMesPagosFalse: React.FC = () => {
   const [atendimentos, setAtendimentos] = useState<Atendimento[]>([]);
@@ -116,7 +116,7 @@ const AtendimentosMesPagosFalse: React.FC = () => {
   return (
     <div className="vet-container overflow-hidden">
       <div className="flex justify-between w-full items-center pl-2 border-black border-b">
-        <h2 className="w-full">Não Pagos</h2>
+        <h2 className="w-full uppercase">Não Pagos</h2>
         <label className="m-1 px-4 py-1 border rounded bg-white text-black outline-none">
           <select value={mes} onChange={handleMonthChange}>
             {months.map((month) => (
@@ -160,9 +160,9 @@ const AtendimentosMesPagosFalse: React.FC = () => {
         ))}
       </div>
       <div className="flex w-full p-2 border-t  border-black justify-between">
-        <p>Quantidade: {atendimentos.length}</p>
+        <p>N°: {atendimentos.length}</p>
         <p>
-          Total: R${" "}
+          TOTAL: R${" "}
           {calcularTotalAtendimentos().toLocaleString("pt-BR", {
             minimumFractionDigits: 2,
           })}

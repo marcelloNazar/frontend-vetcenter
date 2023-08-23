@@ -4,7 +4,7 @@ import Header from "../components/partials/Header";
 import Head from "next/head";
 import { SelectedOwnerProvider } from "../contexts/SelectedOwnerContext";
 import { AnimalProvider } from "../contexts/AnimalContext";
-import Adicionar from "@/components/admin/Adicionar";
+import Adicionar from "@/components/admin/Adicionar/Adicionar";
 import TodosAtendimentos from "@/components/admin/TodosAtendimentos";
 import AtendimentoPagosFalse from "@/components/admin/AtendimentosPagosFalse";
 

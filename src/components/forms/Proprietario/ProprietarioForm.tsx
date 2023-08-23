@@ -64,12 +64,12 @@ const FormularioProprietario: React.FC<FormularioProprietarioProps> = ({
           error={errors?.nascimento?.message}
         />
         <Input
-          type="text"
+          type="tel"
           {...register("telefone1")}
           placeholder="(xx) xxxxx-xxxx"
         />
         <Input
-          type="text"
+          type="tel"
           {...register("telefone2")}
           placeholder="(xx) xxxxx-xxxx"
         />

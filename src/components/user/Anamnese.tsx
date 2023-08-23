@@ -88,7 +88,7 @@ const Anamnsese: React.FC = () => {
   };
 
   return (
-    <div className="vet-container overflow-hidden">
+    <div className="vet-container overflow-hidden text-sm">
       {!anamnese ? (
         <div className="flex justify-center items-center">
           <button className="vet-botao" onClick={openModal}>
@@ -103,16 +103,8 @@ const Anamnsese: React.FC = () => {
               Editar
             </button>
           </div>
+          <div className="w-full mr-28">{anamnese.anamnese}</div>
           <div className="grid grid-cols-2 mr-28">
-            <div className="data-container">
-              Data:
-              <p>{atendimento?.data}</p>
-            </div>
-            <div className="data-container">
-              <div>Anamnese:</div>
-              <p> {anamnese.anamnese}</p>
-            </div>
-
             <div className="data-container">
               <div>Estado:</div>
               <p> {anamnese.estado}</p>
@@ -130,7 +122,7 @@ const Anamnsese: React.FC = () => {
               <p> {anamnese.tpc}</p>
             </div>
             <div className="data-container">
-              <div>Turgor Cutâneo:</div>
+              <div>T. Cutâneo:</div>
               <p> {anamnese.turgorCutaneo}</p>
             </div>
             <div className="data-container">
@@ -166,15 +158,15 @@ const Anamnsese: React.FC = () => {
               <p>{anamnese.secrecoesPatologicas}</p>
             </div>
             <div className="data-container">
-              <div>Calculo Dentario: </div>
+              <div>C. Dentario: </div>
               <p>{anamnese.calculoDentario}</p>
             </div>
             <div className="data-container">
-              <div>Auscultação Cardiaca: </div>
+              <div>A. Cardiaca: </div>
               <p>{anamnese.auscultacaoCardiaca}</p>
             </div>
             <div className="data-container">
-              <div>Auscultação Pulmonar: </div>
+              <div>A. Pulmonar: </div>
               <p>{anamnese.auscultacaoPulmonar}</p>
             </div>
             <div className="data-container">
@@ -186,7 +178,7 @@ const Anamnsese: React.FC = () => {
               <p>{anamnese.emagrecimento}</p>
             </div>
             <div className="data-container">
-              <div>Alteração Corpontamental: </div>
+              <div>A. Corpontamental: </div>
               <p>{anamnese.alteracaoComportamental}</p>
             </div>
             <div className="data-container">
