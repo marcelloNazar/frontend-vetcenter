@@ -262,7 +262,7 @@ const DetalhesAtendimento: React.FC<DetalhesAtendimento> = ({
 
       <div className="flex w-full justify-between items-center mt-auto">
         <button
-          onClick={(e) => atendimentoPDF(atendimento)}
+          onClick={(e) => atendimentoPDF(atendimento, pagamentos, totalPagamentos, restante)}
           className="vet-botao"
         >
           Imprimir

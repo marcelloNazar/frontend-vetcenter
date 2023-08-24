@@ -55,12 +55,33 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
   };
 
   const handleProdClick = (produto: Produto) => {
-    setSelectedProdutos([...selectedProdutos, { ...produto, quantidade: 1 }]);
+    const existingProductIndex = selectedProdutos.findIndex(
+      (p) => p.id === produto.id
+    );
+
+    if (existingProductIndex !== -1) {
+      const updatedSelectedProdutos = [...selectedProdutos];
+      updatedSelectedProdutos[existingProductIndex].quantidade += 1;
+      setSelectedProdutos(updatedSelectedProdutos);
+    } else {
+      setSelectedProdutos([...selectedProdutos, { ...produto, quantidade: 1 }]);
+    }
+
     setProdModalIsOpen(false);
   };
 
   const handleServClick = (servico: Servico) => {
-    setSelectedServicos([...selectedServicos, { ...servico, quantidade: 1 }]);
+    const existingServicoIndex = selectedServicos.findIndex(
+      (p) => p.id === servico.id
+    );
+
+    if (existingServicoIndex !== -1) {
+      const updatedSelectedServicos = [...selectedServicos];
+      updatedSelectedServicos[existingServicoIndex].quantidade += 1;
+      setSelectedServicos(updatedSelectedServicos);
+    } else {
+      setSelectedServicos([...selectedServicos, { ...servico, quantidade: 1 }]);
+    }
     setServModalIsOpen(false);
   };
 
@@ -215,7 +236,7 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
   );
 
   return (
-    <div className="flex flex-col justify-center items-center h-full w-full">
+    <div className="vet-container overflow-hidden">
       <div className="flex justify-between w-full p-2 pb-0 ">
         <h1>Atendimento</h1>
         <button className="vet-botao" onClick={handleBackClick}>
@@ -223,7 +244,7 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
         </button>
       </div>
       <div className="vet-container">
-        <div className="flex p-2 pb-0 items-center justify-between w-full">
+        <div className="flex p-2 pb-0 items-center justify-between h-2/12 w-full">
           <button className="vet-botao" onClick={openProdModal}>
             Adicionar Produto
           </button>
@@ -233,10 +254,10 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
         </div>
         {renderProdModal()}
         {renderServModal()}
-        <div className="mt-2 space-y-2 border-t w-full overflow-y-auto flex-grow p-2 border-b border-black">
+        <div className="mt-2 h-8/12 border-t w-full overflow-y-auto flex-grow p-2 border-b border-black">
           {selectedProdutos.map((produto: any, index: number) => (
-            <div key={index} className="item-list py-1 dark:bg-gray-950">
-              <p>{produto.nome.split(" ").slice(0, 1).join(" ")}</p>
+            <div key={index} className="item-list dark:bg-gray-950">
+              <p>{produto.nome.slice(0, 17)}</p>
               <div className="flex justify-between w-1/2">
                 <input
                   className="w-7 flex justify-center items-center bg-white text-black mr-2"
@@ -289,7 +310,7 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
             </div>
           ))}
         </div>
-        <div className="flex justify-between items-center w-full p-2">
+        <div className="flex justify-between items-center w-full h-2/12 p-2">
           <button className="vet-botao" onClick={handleFinalizarClick}>
             Finalizar
           </button>
