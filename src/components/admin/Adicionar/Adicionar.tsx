@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import { customStyles } from "@/styles/styles";
 import HeaderModal from "../../partials/HeaderModal";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import DetalhesAtendimento from "../partials/DetalhesAtendimento/DetalhesAtendimento";
 import ProdServ from "../../user/ProdServ";
 import { useAdicionar } from "./useAdicionar";
@@ -83,20 +83,30 @@ const Adicionar: React.FC = () => {
             </div>
             <div className="vet-container flex-col h-full justify-start overflow-auto py-1 p-2">
               {atendimentosConcluidos.map((atendimento, index) => (
-                <div
-                  key={index}
-                  className="item-list dark:bg-gray-950"
-                  onClick={() => abrirModal(atendimento)}
-                >
-                  <p className="flex w-2/3">
-                    {atendimento.veterinario.nome
-                      .split(" ")
-                      .slice(0, 2)
-                      .join(" ")}
-                  </p>
-                  <p className="flex w-1/3 mr-6">
-                    {atendimento.animal.nome.split(" ").slice(0, 1).join(" ")}
-                  </p>
+                <div key={index} className="item-list dark:bg-gray-950">
+                  <div
+                    className="flex w-full"
+                    onClick={() => abrirModal(atendimento)}
+                  >
+                    <p className="flex w-2/3">
+                      {atendimento.veterinario.nome
+                        .split(" ")
+                        .slice(0, 2)
+                        .join(" ")}
+                    </p>
+                    <p className="flex w-1/3 mr-6">
+                      {atendimento.animal.nome.split(" ").slice(0, 1).join(" ")}
+                    </p>
+                  </div>
+                  {
+                    (atendimento.veterinario.id = 1 ? (
+                      <button onClick={() => onAtendimentoClick(atendimento)}>
+                        <PencilSquareIcon className="h-5 transform transition duration-500 hover:scale-110" />
+                      </button>
+                    ) : (
+                      <></>
+                    ))
+                  }
                 </div>
               ))}
             </div>

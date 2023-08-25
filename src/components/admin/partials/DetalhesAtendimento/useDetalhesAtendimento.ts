@@ -4,7 +4,6 @@ import http from "@/utils/http";
 
 export const useDetalhesAtendimento = (
   atendimento: Atendimento,
-  atualizarAtendimento: () => void
 ) => {
   const [pagamentos, setPagamentos] = useState<Pagamento[]>([]);
   const [valor, setValor] = useState("");

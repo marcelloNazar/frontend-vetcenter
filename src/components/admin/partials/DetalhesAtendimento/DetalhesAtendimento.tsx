@@ -27,7 +27,7 @@ const DetalhesAtendimento: React.FC<DetalhesAtendimento> = ({
     pagamentos,
     totalPagamentos,
     restante,
-  } = useDetalhesAtendimento(atendimento, atualizarAtendimento);
+  } = useDetalhesAtendimento(atendimento);
 
   return (
     <div className="modal-container ">

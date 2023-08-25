@@ -54,19 +54,19 @@ const VeterinarioComponent: React.FC = () => {
         onRequestClose={() => openModal}
         style={customStyles}
       >
-        <div className="modal-container overflow-auto">
+        <div className="modal-container">
           <HeaderModal
             selected="Selecione um proprietario"
             closeModal={closeModal}
           />
           <input
-            className="w-full p-2 rounded"
+            className="vet-input ml-1"
             type="text"
             value={pesquisa}
             placeholder="Pesquisar proprietario..."
             onChange={handleSearch}
           />
-          <div className="flex justify-between bg-white border border-gray-500  shadow-gray-500 px-2 mb-1 w-full mt-4 ">
+          <div className="flex justify-between bg-gray-100 border border-gray-500 px-2 mb-1 w-full">
             <div className="w-3/12 border-r -ml-1 pr-1 border-gray-500">
               NOME USUARIO
             </div>

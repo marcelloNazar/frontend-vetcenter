@@ -60,18 +60,20 @@ const ProdutoComponent: React.FC = () => {
             closeModal={closeModal}
           />
           <input
-            className="w-full p-2 rounded border bg-white text-black"
+            className="vet-input ml-1"
             type="text"
             value={pesquisa}
             placeholder="Pesquisar produto..."
             onChange={handleSearch}
           />
-          <div className="flex justify-between bg-white border border-gray-500  shadow-gray-500 px-2 mb-1 w-full mt-4 ">
+          <div className="flex justify-between bg-gray-100 border border-gray-500 px-2 mb-1 w-full">
             <div className="flex w-4/12 border-r border-gray-500">NOME:</div>
             <div className="flex w-6/12 border-r pl-2 border-gray-500">
               DESCRIÇÃO:
             </div>
-            <div className="flex w-2/12 border-r pl-2 border-gray-500">PREÇO:</div>
+            <div className="flex w-2/12 border-r pl-2 border-gray-500">
+              PREÇO:
+            </div>
             <div className="flex justify-center pr-1 pl-1.5">EDITAR</div>
           </div>
           <div className="overflow-scroll overflow-x-hidden h-full w-full">

@@ -169,7 +169,7 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
         type="text"
         placeholder="Pesquisar produtos..."
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full bg-white text-black border rounded mb-2"
+        className="vet-input"
       />
       {produtos
         .filter((produto) =>
@@ -209,7 +209,7 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
         type="text"
         placeholder="Pesquisar serviços..."
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full bg-white text-black border rounded mb-2"
+        className="vet-input"
       />
       {servicos
         .filter((servico) =>
@@ -283,7 +283,7 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
             </div>
           ))}
           {selectedServicos.map((servico: any, index: number) => (
-            <div key={index} className="item-list py-1 dark:bg-gray-950">
+            <div key={index} className="item-list dark:bg-gray-950">
               <p>{servico.nome.split(" ").slice(0, 1).join(" ")}</p>
               <div className="flex justify-between w-1/2">
                 <input

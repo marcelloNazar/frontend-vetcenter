@@ -111,14 +111,14 @@ const PropUser: React.FC = () => {
             closeModal={closeModal}
           />
           <input
-            className="w-full p-2 rounded bg-white text-black"
+            className="vet-input ml-1"
             type="text"
             value={pesquisa}
             placeholder="Pesquisar proprietario..."
             onChange={HandleSearch}
           />
-          <div className="overflow-y-auto h-full w-full mt-4">
-            <div className="item-list">
+          <div className="overflow-y-auto h-full w-full">
+            <div className="item-list bg-gray-100">
               <h2 className="w-6/12 border-r border-gray-500  pl-1">NOME</h2>
               <h2 className="w-3/12 border-r border-gray-500  pl-1">CPF</h2>
               <h2 className="w-3/12 pl-1">TELEFONE</h2>

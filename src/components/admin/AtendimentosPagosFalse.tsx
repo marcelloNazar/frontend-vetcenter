@@ -77,16 +77,19 @@ const AtendimentoPagosFalse: React.FC = () => {
             className="item-list dark:bg-gray-950 "
             onClick={() => abrirModal(atendimento)}
           >
-            <p className="w-1/2">
+            <p className="w-7/12">
               {atendimento.proprietario.nome.split(" ").slice(0, 2).join(" ")}
             </p>
-            <p className="w-1/4">{atendimento.pago ? "Pago" : ""}</p>
-            <p className="w-1/4 justify-between flex">
+            <p className="w-2/12">Divida:</p>
+            <p className="w-3/12 justify-between flex">
               R$
               <p>
-                {atendimento.total.toLocaleString("pt-BR", {
-                  minimumFractionDigits: 2,
-                })}
+                {(atendimento.total - atendimento.totalPago).toLocaleString(
+                  "pt-BR",
+                  {
+                    minimumFractionDigits: 2,
+                  }
+                )}
               </p>
             </p>
           </div>

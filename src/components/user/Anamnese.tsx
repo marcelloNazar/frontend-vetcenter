@@ -99,7 +99,7 @@ const Anamnsese: React.FC = () => {
         <div className="body-container">
           <div className="header-container">
             <h2 className="text-xl uppercase">Anamnese</h2>
-            <button className="vet-botao mr-2" onClick={openUpdateModal}>
+            <button className="vet-botao" onClick={openUpdateModal}>
               Editar
             </button>
           </div>
@@ -154,7 +154,7 @@ const Anamnsese: React.FC = () => {
               <p>{anamnese.inapatencia}</p>
             </div>
             <div className="data-container">
-              <div>Secreções Patologicas: </div>
+              <div>S. Patologicas: </div>
               <p>{anamnese.secrecoesPatologicas}</p>
             </div>
             <div className="data-container">
