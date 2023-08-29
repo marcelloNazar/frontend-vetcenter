@@ -118,7 +118,11 @@ const AtendimentosMes: React.FC = () => {
       <div className="flex  justify-between w-full items-center pl-2 border-black border-b">
         <h2 className="w-full uppercase">Todos</h2>
         <label className="m-1 px-4 py-1 border rounded bg-white text-black outline-none">
-          <select value={mes} onChange={handleMonthChange}>
+          <select
+            className="bg-white text-black"
+            value={mes}
+            onChange={handleMonthChange}
+          >
             {months.map((month) => (
               <option key={month.value} value={month.value}>
                 {month.label}

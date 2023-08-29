@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import http from "@/utils/http";
 import { Atendimento } from "@/types/types";
 import Modal from "react-modal";
 import HeaderModal from "../partials/HeaderModal";
 import { customStyles } from "@/styles/styles";
 import DetalhesAtendimento from "./partials/DetalhesAtendimento/DetalhesAtendimento";
+import { AuthContext } from "@/contexts/AuthContext";
 
 const TodosAtendimentos: React.FC = () => {
   const [atendimentos, setAtendimentos] = useState<Atendimento[]>([]);
@@ -12,6 +13,8 @@ const TodosAtendimentos: React.FC = () => {
   const [currentAtendimento, setCurrentAtendimento] =
     useState<Atendimento | null>(null);
   const [isPago, setIsPago] = useState(false);
+
+  const { signOut } = useContext(AuthContext);
 
   const abrirModal = (atendimento: Atendimento) => {
     setCurrentAtendimento(atendimento);
@@ -43,6 +46,7 @@ const TodosAtendimentos: React.FC = () => {
       .get("adm/atendimento/finalizados")
       .then((r) => setAtendimentos(r.data.content))
       .catch((e) => {
+        signOut();
         console.error("Erro:", e);
       });
   };
