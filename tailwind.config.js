@@ -25,6 +25,10 @@ module.exports = {
     fontFamily: {
       sans: "Inter, sans-serif",
     },
+    scrollbar: {
+      thumb: "bg-white",
+      track: "bg-white",
+    },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")],
 };

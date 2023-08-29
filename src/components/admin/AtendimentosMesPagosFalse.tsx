@@ -115,11 +115,15 @@ const AtendimentosMesPagosFalse: React.FC = () => {
   };
 
   return (
-    <div className="vet-container overflow-hidden">
+    <div className="vet-container">
       <div className="flex justify-between w-full items-center pl-2 border-black border-b">
         <h2 className="w-full uppercase">Não Pagos</h2>
         <label className="m-1 px-4 py-1 border rounded bg-white text-black outline-none">
-          <select value={mes} onChange={handleMonthChange}>
+          <select
+            className="bg-white text-black"
+            value={mes}
+            onChange={handleMonthChange}
+          >
             {months.map((month) => (
               <option key={month.value} value={month.value}>
                 {month.label}
@@ -129,7 +133,11 @@ const AtendimentosMesPagosFalse: React.FC = () => {
         </label>
 
         <label className="m-1 px-4 py-1 border rounded bg-white text-black outline-none">
-          <select value={ano} onChange={handleYearChange}>
+          <select
+            className="bg-white text-black"
+            value={ano}
+            onChange={handleYearChange}
+          >
             {years.map((year) => (
               <option key={year.value} value={year.value}>
                 {year.label}
