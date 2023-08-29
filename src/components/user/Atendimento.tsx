@@ -12,7 +12,7 @@ const AtendimentoComponent: React.FC = () => {
     Atendimento[]
   >([]);
   const [showAddProducts, setShowAddProducts] = useState(false);
-  const [produtos, setProdutos]= useState()
+  const [produtos, setProdutos] = useState();
 
   const {
     atendimento,
@@ -100,7 +100,7 @@ const AtendimentoComponent: React.FC = () => {
         <>
           <div className="flex flex-col justify-start items-center w-full h-1/2 overflow-auto">
             <div className="flex justify-center w-full mb-2 border-black border-b">
-              <h2>Lista de Espera</h2>{" "}
+              <h2 className="uppercase">Lista de Espera</h2>{" "}
             </div>
             {animal && (
               <div className="flex w-full justify-end pb-2 mb-2 border-b border-black">
@@ -110,21 +110,21 @@ const AtendimentoComponent: React.FC = () => {
               </div>
             )}
             {atendimentos.map((atendimento, index) => (
-              <div
-                key={index}
-                className="item-list dark:bg-gray-950"
-                onClick={() => onAtendimentoClick(atendimento)}
-              >
-                <p className="flex w-1/2">
-                  {atendimento.proprietario.nome
-                    .split(" ")
-                    .slice(0, 2)
-                    .join(" ")}
-                </p>
-                <p className="flex w-1/2">
-                  <p className="mr-2">Animal:</p>
-                  {atendimento.animal.nome.split(" ").slice(0, 1).join(" ")}
-                </p>
+              <div key={index} className="item-list dark:bg-gray-950">
+                <div
+                  className="flex w-full"
+                  onClick={() => onAtendimentoClick(atendimento)}
+                >
+                  <p className="flex w-1/2">
+                    {atendimento.proprietario.nome
+                      .split(" ")
+                      .slice(0, 2)
+                      .join(" ")}
+                  </p>
+                  <p className="flex w-1/2">
+                    {atendimento.animal.nome.split(" ").slice(0, 1).join(" ")}
+                  </p>
+                </div>
                 <button onClick={() => handleDelete(atendimento.id)}>
                   <TrashIcon className="h-5 transform transition duration-500 hover:scale-110" />
                 </button>
@@ -133,7 +133,7 @@ const AtendimentoComponent: React.FC = () => {
           </div>
           <div className="flex flex-col w-full h-1/2 overflow-auto justify-start ">
             <div className="flex justify-center border-t mb-2 border-black border-b ">
-              <h2>Atendimentos Concluídos</h2>
+              <h2 className="uppercase">Atendimentos em Andamento</h2>
             </div>
             {atendimentosConcluidos.map((atendimento, index) => (
               <div
@@ -148,7 +148,6 @@ const AtendimentoComponent: React.FC = () => {
                     .join(" ")}
                 </p>
                 <p className="flex w-1/2">
-                  <p className="mr-2">Animal:</p>
                   {atendimento.animal.nome.split(" ").slice(0, 1).join(" ")}
                 </p>
               </div>
@@ -156,7 +155,7 @@ const AtendimentoComponent: React.FC = () => {
           </div>
         </>
       ) : (
-        <ProdServ data={atendimento}/>
+        <ProdServ data={atendimento} />
       )}
     </div>
   );
