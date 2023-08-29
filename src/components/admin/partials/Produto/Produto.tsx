@@ -76,7 +76,7 @@ const ProdutoComponent: React.FC = () => {
             </div>
             <div className="flex justify-center pr-1 pl-1.5">EDITAR</div>
           </div>
-          <div className="overflow-scroll overflow-x-hidden h-full w-full">
+          <div className="overflow-scroll overflow-x-hidden h-full w-full scrollbar scrollbar-thumb-gray-300">
             {produtos
               .filter((produto) =>
                 produto.nome.toLowerCase().includes(pesquisa.toLowerCase())

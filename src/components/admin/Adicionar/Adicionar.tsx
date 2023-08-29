@@ -53,7 +53,7 @@ const Adicionar: React.FC = () => {
                 Criar atendimento
               </button>
             </header>
-            <div className="vet-container flex-col h-full justify-start p-2 py-1 overflow-auto">
+            <div className="vet-container flex-col h-full justify-start p-2 py-1 overflow-auto scrollbar scrollbar-thumb-gray-300">
               {atendimentos.map((atendimento, index) => (
                 <div key={index} className="item-list dark:bg-gray-950">
                   <div
@@ -81,7 +81,7 @@ const Adicionar: React.FC = () => {
             <div className="flex justify-center w-full border-t border-black border-b mt-2">
               <h2 className="uppercase">Atendimentos em Andamento</h2>
             </div>
-            <div className="vet-container flex-col h-full justify-start overflow-auto py-1 p-2">
+            <div className="vet-container flex-col h-full justify-start overflow-auto py-1 p-2 scrollbar scrollbar-thumb-gray-300">
               {atendimentosConcluidos.map((atendimento, index) => (
                 <div key={index} className="item-list dark:bg-gray-950">
                   <div

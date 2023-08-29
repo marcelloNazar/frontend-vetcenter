@@ -32,7 +32,7 @@ const AnimalUser: React.FC = () => {
               Adicionar Animal
             </button>
           </div>
-          <div className="overflow-auto w-full h-2/3">
+          <div className="overflow-y-auto w-full h-2/3 scrollbar scrollbar-thumb-gray-300">
             {animals.length === 0 ? (
               <div>proprietario não possui animal cadastrado</div>
             ) : (

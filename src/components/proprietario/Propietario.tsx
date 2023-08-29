@@ -117,7 +117,7 @@ const PropUser: React.FC = () => {
             placeholder="Pesquisar proprietario..."
             onChange={HandleSearch}
           />
-          <div className="overflow-y-auto h-full w-full">
+          <div className="overflow-y-auto h-full w-full scrollbar scrollbar-thumb-gray-300">
             <div className="item-list bg-gray-100">
               <h2 className="w-6/12 border-r border-gray-500  pl-1">NOME</h2>
               <h2 className="w-3/12 border-r border-gray-500  pl-1">CPF</h2>

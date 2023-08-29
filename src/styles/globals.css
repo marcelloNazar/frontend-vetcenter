@@ -13,7 +13,7 @@
     @apply flex justify-between border-l-2 border-gray-900 dark:border-gray-100 uppercase px-4 w-full;
   }
   .vet-container {
-    @apply flex flex-col justify-center items-center h-full w-full dark:bg-gray-900 dark:text-white bg-gray-100 rounded transition duration-100 overflow-hidden scrollbar-thumb-thumb scrollbar-track-track;
+    @apply flex flex-col justify-center items-center h-full w-full dark:bg-gray-900 dark:text-white bg-gray-100 rounded transition duration-100 overflow-hidden;
   }
   .vet-botao {
     @apply bg-orange-600 text-white rounded px-2 py-1  text-base transform transition duration-200 hover:opacity-90 hover:shadow-lg;

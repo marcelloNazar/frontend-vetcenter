@@ -31,7 +31,7 @@ const DetalhesAtendimento: React.FC<DetalhesAtendimento> = ({
 
   return (
     <div className="modal-container ">
-      <div className="flex w-full flex-col justify-between overflow-auto">
+      <div className="flex w-full flex-col justify-between overflow-auto scrollbar scrollbar-thumb-gray-300">
         <div className="data-modal-container mt-1">
           <p className="data-modal">
             {atendimento.veterinario.nome.split(" ").slice(0, 2).join(" ")}

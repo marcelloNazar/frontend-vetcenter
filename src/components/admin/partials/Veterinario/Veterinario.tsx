@@ -80,7 +80,7 @@ const VeterinarioComponent: React.FC = () => {
               <div>EDITAR</div>
             </div>
           </div>
-          <div className="overflow-scroll overflow-x-hidden h-full w-full">
+          <div className="overflow-scroll overflow-x-hidden h-full w-full scrollbar scrollbar-thumb-gray-300">
             {veterinarios
               .filter((veterinario) =>
                 veterinario.nome.toLowerCase().includes(pesquisa.toLowerCase())

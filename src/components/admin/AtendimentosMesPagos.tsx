@@ -119,7 +119,10 @@ const AtendimentosMesPagos: React.FC = () => {
         <h2 className="w-full uppercase">Pagos</h2>
         <label className="m-1 px-4 py-1 border rounded bg-white text-black outline-none">
           <select
-            className="bg-white text-black" value={mes} onChange={handleMonthChange}>
+            className="bg-white text-black"
+            value={mes}
+            onChange={handleMonthChange}
+          >
             {months.map((month) => (
               <option key={month.value} value={month.value}>
                 {month.label}
@@ -130,7 +133,10 @@ const AtendimentosMesPagos: React.FC = () => {
 
         <label className="m-1 px-4 py-1 border rounded bg-white text-black outline-none">
           <select
-            className="bg-white text-black" value={ano} onChange={handleYearChange}>
+            className="bg-white text-black"
+            value={ano}
+            onChange={handleYearChange}
+          >
             {years.map((year) => (
               <option key={year.value} value={year.value}>
                 {year.label}
@@ -139,7 +145,7 @@ const AtendimentosMesPagos: React.FC = () => {
           </select>
         </label>
       </div>
-      <div className="vet-container flex-col h-full  justify-start overflow-auto p-2">
+      <div className="vet-container flex-col h-full  justify-start overflow-auto p-2 scrollbar scrollbar-thumb-gray-300">
         {atendimentos.map((atendimento, index) => (
           <div
             key={index}

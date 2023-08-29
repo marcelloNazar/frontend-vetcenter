@@ -145,7 +145,7 @@ const AtendimentosMes: React.FC = () => {
           </select>
         </label>
       </div>
-      <div className="vet-container flex-col h-full justify-start p-2 overflow-auto">
+      <div className="vet-container flex-col h-full justify-start p-2 overflow-auto scrollbar scrollbar-thumb-gray-300">
         {atendimentos.map((atendimento, index) => (
           <div
             key={index}

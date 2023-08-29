@@ -146,7 +146,7 @@ const AtendimentosMesPagosFalse: React.FC = () => {
           </select>
         </label>
       </div>
-      <div className="vet-container flex-col h-full  justify-start overflow-auto p-2">
+      <div className="vet-container flex-col h-full  justify-start overflow-auto p-2 scrollbar scrollbar-thumb-gray-300">
         {atendimentos.map((atendimento, index) => (
           <div
             key={index}
