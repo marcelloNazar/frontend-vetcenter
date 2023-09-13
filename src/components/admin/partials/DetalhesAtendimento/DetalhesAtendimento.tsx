@@ -153,6 +153,33 @@ const DetalhesAtendimento: React.FC<DetalhesAtendimento> = ({
         ) : (
           <></>
         )}
+        {atendimento.cirurgias.length ? (
+          <>
+            <h4 className="mt-1">Cirurgias:</h4>
+            {atendimento.cirurgias.map((cirurgia, index) => (
+              <div key={index} className="data-modal-container">
+                <p className="data-modal  w-5/12">{cirurgia.nome}</p>
+                <p className="data-modal w-1/12">
+                  <p>QTD:</p> 1
+                </p>
+                <p className="data-modal w-1/4">
+                  <p>UNITARIO:</p>R${" "}
+                  {cirurgia.valor.toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                  })}
+                </p>
+                <p className="data-modal w-1/4">
+                  <p>TOTAL:</p>R${" "}
+                  {cirurgia.valor.toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+            ))}
+          </>
+        ) : (
+          <></>
+        )}
         <div>
           <div className="data-modal-container mt-1">
             <div className="flex justify-center w-1/3"></div>
@@ -262,7 +289,9 @@ const DetalhesAtendimento: React.FC<DetalhesAtendimento> = ({
 
       <div className="flex w-full justify-between items-center mt-auto">
         <button
-          onClick={(e) => atendimentoPDF(atendimento, pagamentos, totalPagamentos, restante)}
+          onClick={(e) =>
+            atendimentoPDF(atendimento, pagamentos, totalPagamentos, restante)
+          }
           className="vet-botao"
         >
           Imprimir

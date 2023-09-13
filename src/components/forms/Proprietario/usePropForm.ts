@@ -30,6 +30,7 @@ export const usePropForm = (
   const telefone1 = watch("telefone1");
   const telefone2 = watch("telefone2");
   const nomeMae = watch("nomeMae");
+  const descricao = watch("descricao");
   const cep = watch("endereco.cep");
   const rua = watch("endereco.rua");
   const bairro = watch("endereco.bairro");
@@ -46,6 +47,7 @@ export const usePropForm = (
     setValue("telefone2", data.telefone2 || "");
     setValue("nomeMae", data.nomeMae || "");
     setValue("sexo", data.sexo || "");
+    setValue("descricao", data.descricao || "");
     setValue("endereco.rua", data.endereco?.rua || "");
     setValue("endereco.bairro", data.endereco?.bairro || "");
     setValue("endereco.cep", data.endereco?.cep || "");
@@ -68,12 +70,14 @@ export const usePropForm = (
     setValue("endereco.cidade", letrasMaiusculas(cidade || ""));
     setValue("endereco.uf", letrasMaiusculas(uf || ""));
     setValue("endereco.complemento", letrasMaiusculas(complemento || ""));
+    setValue("descricao", letrasMaiusculas(descricao || ""));
   }, [
     nome,
     cpf,
     telefone,
     telefone1,
     telefone2,
+    descricao,
     nomeMae,
     cep,
     rua,
@@ -88,7 +92,6 @@ export const usePropForm = (
   }, []);
 
   const submitForm: SubmitHandler<Owner> = (values) => {
-    console.log(values);
     handleSubmit2(values);
   };
 

@@ -119,6 +119,14 @@ const FormularioProprietario: React.FC<FormularioProprietarioProps> = ({
           placeholder="Complemento"
         />
       </form>
+      <div className="w-full px-1">
+        <textarea
+          className="vet-input"
+          {...register("descricao")}
+          placeholder="Descrição"
+          rows={4}
+        ></textarea>
+      </div>
       <button
         onClick={handleSubmit(submitForm)}
         type="submit"

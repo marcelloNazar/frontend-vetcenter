@@ -9,6 +9,7 @@ export interface Owner {
   sexo: string;
   nomeMae: string;
   divida: number;
+  descricao: string;
   endereco: {
     rua: string;
     bairro: string;
@@ -59,6 +60,7 @@ export interface Atendimento {
   totalPago: number;
   produtos: Produto[];
   servicos: Servico[];
+  cirurgias: Cirurgia[];
   pagamentos: Pagamento[];
 }
 
@@ -76,6 +78,13 @@ export interface Servico {
   valor: number;
   descricao: string;
   quantidade: number;
+}
+export interface Cirurgia {
+  id: number;
+  nome: string;
+  valor: number;
+  descricao: string;
+  atendimento: Atendimento;
 }
 
 export interface Anamnese {

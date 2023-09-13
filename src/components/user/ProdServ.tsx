@@ -3,9 +3,10 @@ import { useAtendimento } from "@/contexts/AtendimentoContext";
 import http from "@/utils/http";
 import ReactModal from "react-modal";
 import HeaderModal from "../partials/HeaderModal";
-import { customStyles } from "@/styles/styles";
-import { Atendimento, Produto, Servico } from "@/types/types";
+import { customStyles, customStylesProd } from "@/styles/styles";
+import { Atendimento, Cirurgia, Produto, Servico } from "@/types/types";
 import { TrashIcon } from "@heroicons/react/24/outline";
+import ProdServForm from "../forms/ProdServ/ProdServForm";
 
 interface ProdServProps {
   data?: Partial<Atendimento>;
@@ -15,11 +16,14 @@ interface ProdServProps {
 const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
   const [prodModalIsOpen, setProdModalIsOpen] = useState(false);
   const [servModalIsOpen, setServModalIsOpen] = useState(false);
+  const [cirurModalIsOpen, setCirurModalIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [servicos, setServicos] = useState<Servico[]>([]);
+  const [cirurgia, setCirurgia] = useState<Cirurgia[]>([]);
   const [selectedProdutos, setSelectedProdutos] = useState<Produto[]>([]);
   const [selectedServicos, setSelectedServicos] = useState<Servico[]>([]);
+  const [selectedCirurgias, setSelectedCirurgias] = useState<Cirurgia[]>([]);
 
   const { resetAtendimento, atendimento } = useAtendimento();
 
@@ -36,14 +40,22 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
       .then((r) => setServicos(r.data.content))
       .catch((e) => console.error("Error:", e));
   };
+  const fetchCirurgias = () => {
+    http
+      .get(`cirurgia/atendimento/${atendimento?.id}`)
+      .then((r) => setSelectedCirurgias(r.data))
+      .catch((e) => console.error("Error:", e));
+  };
 
   const serProdutosAnteriores = () => {};
 
   useEffect(() => {
     setSelectedProdutos(atendimento?.produtos || []);
     setSelectedServicos(atendimento?.servicos || []);
+    fetchCirurgias();
     fetchProdutos();
     fetchServicos();
+    setSelectedCirurgias(atendimento?.cirurgias || []);
   }, []);
 
   const openProdModal = () => {
@@ -52,6 +64,10 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
 
   const openServModal = () => {
     setServModalIsOpen(true);
+  };
+
+  const openCirurgiaModal = () => {
+    setCirurModalIsOpen(true);
   };
 
   const handleProdClick = (produto: Produto) => {
@@ -97,6 +113,15 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
     setSelectedServicos((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleRemoveCirurgia = (id: number) => {
+    http
+      .delete(`cirurgia/${id}`)
+      .then((response) => {
+        fetchCirurgias();
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
   const handleQuantityChange = (
     index: number,
     type: "produto" | "servico",
@@ -130,10 +155,20 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
       quantidade: quantidade || 1,
     }));
 
+    const cirurgias = selectedCirurgias.map(
+      ({ id, nome, valor, descricao, atendimento }) => ({
+        id,
+        nome,
+        valor,
+        descricao,
+      })
+    );
+
     http
       .put(`atendimento/${atendimento?.id}`, {
         atendimentoProdutos,
         atendimentoServicos,
+        cirurgias,
       })
       .then((r) => {
         if (r.status === 200) {
@@ -152,7 +187,8 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
     selectedServicos.reduce(
       (acc, serv) => acc + serv.valor * serv.quantidade,
       0
-    );
+    ) +
+    selectedCirurgias.reduce((acc, cirurgia) => acc + cirurgia.valor, 0);
 
   // Modais
   const renderProdModal = () => (
@@ -235,6 +271,43 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
     </ReactModal>
   );
 
+  const handleAddSubmit = (data: Partial<Cirurgia>) => {
+    let cirurgia = {
+      nome: data.nome,
+      descricao: data.descricao,
+      valor: data.valor,
+      atendimentoId: atendimento?.id,
+    };
+
+    http
+      .post("cirurgia", cirurgia)
+      .then((r) => {
+        if (r.status === 201) {
+          setCirurModalIsOpen(false);
+          fetchCirurgias();
+        } else {
+          alert("Erro ao adicionar o cirurgia");
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  const renderCirurgiaModal = () => (
+    <ReactModal
+      isOpen={cirurModalIsOpen}
+      onRequestClose={() => setCirurModalIsOpen(false)}
+      style={customStylesProd}
+    >
+      <div className="modal-container">
+        <HeaderModal
+          selected="Adicione o produto"
+          closeModal={() => setCirurModalIsOpen(false)}
+        />
+        <ProdServForm handleSubmit2={handleAddSubmit} />
+      </div>
+    </ReactModal>
+  );
+
   return (
     <div className="vet-container overflow-hidden">
       <div className="flex justify-between w-full p-2 pb-0 ">
@@ -251,9 +324,13 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
           <button className="vet-botao" onClick={openServModal}>
             Adicionar Serviço
           </button>
+          <button className="vet-botao" onClick={openCirurgiaModal}>
+            Cirurgia
+          </button>
         </div>
         {renderProdModal()}
         {renderServModal()}
+        {renderCirurgiaModal()}
         <div className="mt-2 h-8/12 border-t w-full overflow-y-auto flex-grow p-2 border-b border-black">
           {selectedProdutos.map((produto: any, index: number) => (
             <div key={index} className="item-list dark:bg-gray-950">
@@ -309,6 +386,27 @@ const ProdServ: React.FC<ProdServProps> = ({ data = {} }) => {
               </div>
             </div>
           ))}
+          {selectedCirurgias &&
+            selectedCirurgias.map((cirurgia, index) => (
+              <div key={index} className="item-list dark:bg-gray-950">
+                <p>{cirurgia.nome.split(" ").slice(0, 1).join(" ")}</p>
+                <div className="flex justify-between w-1/2">
+                  <div className="w-7 flex justify-center items-center bg-white text-black mr-5" />
+                  <button
+                    className="w-1/3"
+                    onClick={() => handleRemoveCirurgia(cirurgia.id)}
+                  >
+                    <TrashIcon className="h-5 transform transition duration-500 hover:scale-110" />
+                  </button>
+                  <p className="flex justify-end w-full pl-1">
+                    <p>R$ </p>{" "}
+                    {cirurgia.valor.toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                    })}
+                  </p>
+                </div>
+              </div>
+            ))}
         </div>
         <div className="flex justify-between items-center w-full h-2/12 p-2">
           <button className="vet-botao" onClick={handleFinalizarClick}>

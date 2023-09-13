@@ -43,6 +43,7 @@ const proprietarioValidator = Yup.object({
   nascimento: Yup.string().required("Obrigado informar a Data de Nascimento"),
   nomeMae: Yup.string().required("Obrigado informar o Nome da Mãe"),
   sexo: Yup.string().required("Obrigado informar o Sexo"),
+  descricao: Yup.string(),
   endereco: enderecoSchema,
 });
 
